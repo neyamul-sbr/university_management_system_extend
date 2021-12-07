@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Result Sheet</title>
+  <style>
+    .styled-table {
+      border-collapse: collapse;
+      margin: 20px 0;
+      font-size: 1.5em;
+      font-family: sans-serif;
+      min-width: 400px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+    }
+
+    .styled-table thead tr {
+      background-color: #3F3E91;
+      color: #ffffff;
+      text-align: left;
+    }
+
+    .styled-table th,
+    .styled-table td {
+      padding: 5px 1px;
+    }
+
+    .styled-table tbody tr {
+      border-bottom: 1px solid #dddddd;
+    }
+
+    .styled-table tbody tr:nth-of-type(even) {
+      background-color: #f3f3f3;
+    }
+
+    .styled-table tbody tr:last-of-type {
+      border-bottom: 2px solid #009879;
+    }
+
+    .styled-table tbody tr.active-row {
+      font-weight: bold;
+      color: #009879;
+    }
+
+    table {
+      border-collapse: collapse;
+      border: 1px solid black;
+      empty-cells:h;
+      
+
+    }
+
+
+    table.c {
+      table-layout: auto;
+      width: 100%;
+    }
+
+    h1 {
+      text-align: center;
+    }
+
+    td,
+    th {
+      text-align: center;
+    }
+
+    .center {
+      margin: auto;
+      text-align: center;
+    }
+
+    .left {
+      text-align: left;
+    }
+
+    img {
+      width: 100%;
+      padding-right: 20px;
+
+    }
+
+
+  </style>
+</head>
+
+<body>
+
+  <div>
+
+    <h1> <img
+        src="https://seeklogo.com/images/S/shahjalal-university-of-science-and-technology-logo-F34BC01F81-seeklogo.com.png"
+        alt="alternatetext" style="width:64px;height:64px; float:left; vertical-align:middle"> <br> Shahjalal University
+      Of Science and Technology<br>Akhakia,Sylhet</h1>
+  </div>
+
+  <div>
+
+    <p1 style="font-size: 4;"><b>Name:</b> {{name}} </p>
+      <p1><b>Registration No:</b> {{regi}}</p>
+        <p1><b>Department :</b> {{dept}}</p>
+        <p1><b>Phone:</b> {{phone}}</p>
+          <p1><b>Email:</b> {{email}}</p>
+            <p1><b>Current CGPA:</b> {{cgpa}}</p>
+              <p1><b>Degree Completion Status:</b> {{status}}</p>
+
+  </div>
+
+  <div>
+    <h1>Marksheet</h1>
+
+    <table class="styled-table">
+      <thead>
+        <tr>
+          <th>Subject Name</th>
+          <th>Course Code</th>
+          <th>Credit</th>
+          <th>Marks</th>
+          <th>CGPA</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for person in data %}
+        <tr>
+          <td>{{ person.subject_name }}</td>
+          <td>{{ person.cc }}</td>
+          <td>{{ person.credit}}</td>
+          <td>{{ person.marks }}</td>
+          <td>{{person.student_id}}</td>
+          
+        </tr>
+        {% endfor %}
+        <td><b>Cumulative GPA</b></td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
+        <td><b>{{cgpa}}</b></td>
+        
+        
+      </tbody>
+    </table>
+  </div>
+
+ 
+
+</body>
+
+</html>

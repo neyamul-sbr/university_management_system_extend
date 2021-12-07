@@ -1,0 +1,90 @@
+{%extends 'main/main_home.html'%}
+{%block content%}
+
+
+      <!-- partial -->
+
+      <div class="main-panel">        
+        <div class="content-wrapper">
+          {% include 'main/message.html' %}
+          
+            <div class="col-md-12 grid-margin stretch-card">
+
+              <div class="card">
+                <div class="card-body">
+                  <h4 class="card-title">Add Admin</h4>
+                  <p class="card-description">
+                    An Admin Can only be added by another Admin  
+                  </p>
+                   
+                  <form action = "" method="POST" enctype="multipart/form-data" class="forms-sample">
+                    {% csrf_token %}
+                    <div class="form-group row">
+                      <label for="exampleInputUsername2" class="col-sm-3 col-form-label">Username</label>
+                      <div class="col-sm-9">
+                        {{user_form.username}}
+                  
+                      </div>
+                    </div>
+                    <div class="form-group row">
+                      <label for="exampleInputEmail2" class="col-sm-3 col-form-label">Email</label>
+                      <div class="col-sm-9">
+                        {{user_form.email}}
+                      </div>
+                    </div>
+                    <!-- <div class="form-group row">
+                      <label for="exampleInputMobile" class="col-sm-3 col-form-label">Mobile</label>
+                      <div class="col-sm-9">
+                        <input type="text" class="form-control" id="exampleInputMobile" placeholder="Mobile number">
+                      </div>
+                    </div> -->
+                    <div class="form-group row">
+                      <label for="exampleInputPassword2" class="col-sm-3 col-form-label">Password</label>
+                      <div class="col-sm-9">
+                        {{user_form.password1}}
+                      </div>
+                    </div>
+                    <div class="form-group row">
+                      <label for="exampleInputConfirmPassword2" class="col-sm-3 col-form-label">Re Password</label>
+                      <div class="col-sm-9">
+                        {{user_form.password2}}
+                      </div>
+                    </div>
+                    <!-- <div class="form-check form-check-flat form-check-primary">
+                      <label class="form-check-label">
+                        <input type="checkbox" class="form-check-input">
+                        Remember me
+                      </label> -->
+                      <div class="form-group row">
+                        <label for="exampleInputConfirmPassword2" class="col-sm-3 col-form-label">Name</label>
+                        <div class="col-sm-9">
+                          {{admin_form.name}}
+                        </div>
+                      </div>
+                      <div class="form-group row">
+                        <label for="exampleInputConfirmPassword2" class="col-sm-3 col-form-label">Phone</label>
+                        <div class="col-sm-9">
+                          {{admin_form.phone}}
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label>Image Upload</label>
+                        <input type="file" name="img[]" class="file-upload-default">
+                        <div class="input-group col-xs-12">
+                        {{admin_form.profile_pic}}
+                        </div>
+                      </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary mr-2">Submit</button>
+                    <!-- <button class="btn btn-light">Cancel</button> -->
+                  </form>
+                </div>
+              </div>
+            </div>
+            </div>
+          </div>
+      </div>
+    </div>
+
+           
+    {%endblock%}

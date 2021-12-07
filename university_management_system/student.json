@@ -1,0 +1,132 @@
+[
+    {
+        "pk": 1,
+        "model": "main.result",
+        "fields": {
+            "student_id": "2017331047",
+            "attendence": 5,
+            "course_code": "CSE333",
+            "marks": "80"
+        }
+    },
+    {
+        "pk": 2,
+        "model": "main.result",
+        "fields": {
+            "student_id": "2017331047",
+            "attendence": 6,
+            "course_code": "CSE334",
+            "marks": "70"
+        }
+    },
+    {
+        "pk": 3,
+        "model": "main.result",
+        "fields": {
+            "student_id": "2017331047",
+            "attendence": 7,
+            "course_code": "CSE335",
+            "marks": "90"
+        }
+    },
+    {
+        "pk": 4,
+        "model": "main.result",
+        "fields": {
+            "student_id": "2017331048",
+            "attendence": 7,
+            "course_code": "CSE334",
+            "marks": "90"
+        }
+    },
+    {
+        "pk": 5,
+        "model": "main.result",
+        "fields": {
+            "student_id": "2017331048",
+            "attendence": 7,
+            "course_code": "CSE335",
+            "marks": "90"
+        }
+    },
+    {
+        "pk": 6,
+        "model": "main.result",
+        "fields": {
+            "student_id": "2017331048",
+            "attendence": 9,
+            "course_code": "CSE336",
+            "marks": "82"
+        }
+    },
+    {
+        "pk": 7,
+        "model": "main.result",
+        "fields": {
+            "student_id": "2017331049",
+            "attendence": 3,
+            "course_code": "CSE334",
+            "marks": "95"
+        }
+    },
+    {
+        "pk": 8,
+        "model": "main.result",
+        "fields": {
+            "student_id": "2017331049",
+            "attendence": 6,
+            "course_code": "CSE335",
+            "marks": "81"
+        }
+    },
+    {
+        "pk": 9,
+        "model": "main.result",
+        "fields": {
+            "student_id": "2017331047",
+            "attendence": 4,
+            "course_code": "CSE336",
+            "marks": "60"
+        }
+    },
+    {
+        "pk": 1,
+        "model": "main.subject",
+        "fields": {
+            "subject_name": "Compiler",
+            "credit": 3,
+            "subtype": "Programming",
+            "course_code": "CSE333"
+        }
+    },
+    {
+        "pk": 2,
+        "model": "main.subject",
+        "fields": {
+            "subject_name": "Networking",
+            "credit": 3,
+            "subtype": "Net",
+            "course_code": "CSE334"
+        }
+    },
+    {
+        "pk": 3,
+        "model": "main.subject",
+        "fields": {
+            "subject_name": "C",
+            "credit": 3,
+            "subtype": "Language",
+            "course_code": "CSE335"
+        }
+    },
+    {
+        "pk": 4,
+        "model": "main.subject",
+        "fields": {
+            "subject_name": "Calculus",
+            "credit": 2,
+            "subtype": "Math",
+            "course_code": "CSE336"
+        }
+    }
+]

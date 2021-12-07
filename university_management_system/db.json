@@ -1,0 +1,862 @@
+[
+    {
+        "model": "admin.logentry",
+        "pk": 1,
+        "fields": {
+            "action_time": "2021-12-01T05:24:24.192Z",
+            "user": 1,
+            "content_type": 3,
+            "object_id": "1",
+            "object_repr": "student",
+            "action_flag": 1,
+            "change_message": "[{\"added\": {}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 2,
+        "fields": {
+            "action_time": "2021-12-01T05:24:37.553Z",
+            "user": 1,
+            "content_type": 3,
+            "object_id": "2",
+            "object_repr": "admin",
+            "action_flag": 1,
+            "change_message": "[{\"added\": {}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 3,
+        "fields": {
+            "action_time": "2021-12-01T05:28:33.220Z",
+            "user": 1,
+            "content_type": 10,
+            "object_id": "1",
+            "object_repr": "Admin Khan",
+            "action_flag": 1,
+            "change_message": "[{\"added\": {}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 4,
+        "fields": {
+            "action_time": "2021-12-01T05:29:26.483Z",
+            "user": 1,
+            "content_type": 4,
+            "object_id": "1",
+            "object_repr": "admin",
+            "action_flag": 2,
+            "change_message": "[{\"changed\": {\"fields\": [\"Groups\", \"User permissions\"]}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 5,
+        "fields": {
+            "action_time": "2021-12-01T07:11:10.263Z",
+            "user": 1,
+            "content_type": 4,
+            "object_id": "2",
+            "object_repr": "neyamul",
+            "action_flag": 2,
+            "change_message": "[{\"changed\": {\"fields\": [\"password\"]}}]"
+        }
+    },
+    {
+        "model": "admin.logentry",
+        "pk": 6,
+        "fields": {
+            "action_time": "2021-12-01T07:18:24.698Z",
+            "user": 1,
+            "content_type": 4,
+            "object_id": "3",
+            "object_repr": "neyamul2",
+            "action_flag": 2,
+            "change_message": "[{\"changed\": {\"fields\": [\"password\"]}}]"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 1,
+        "fields": {
+            "name": "Can add log entry",
+            "content_type": 1,
+            "codename": "add_logentry"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 2,
+        "fields": {
+            "name": "Can change log entry",
+            "content_type": 1,
+            "codename": "change_logentry"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 3,
+        "fields": {
+            "name": "Can delete log entry",
+            "content_type": 1,
+            "codename": "delete_logentry"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 4,
+        "fields": {
+            "name": "Can view log entry",
+            "content_type": 1,
+            "codename": "view_logentry"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 5,
+        "fields": {
+            "name": "Can add permission",
+            "content_type": 2,
+            "codename": "add_permission"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 6,
+        "fields": {
+            "name": "Can change permission",
+            "content_type": 2,
+            "codename": "change_permission"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 7,
+        "fields": {
+            "name": "Can delete permission",
+            "content_type": 2,
+            "codename": "delete_permission"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 8,
+        "fields": {
+            "name": "Can view permission",
+            "content_type": 2,
+            "codename": "view_permission"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 9,
+        "fields": {
+            "name": "Can add group",
+            "content_type": 3,
+            "codename": "add_group"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 10,
+        "fields": {
+            "name": "Can change group",
+            "content_type": 3,
+            "codename": "change_group"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 11,
+        "fields": {
+            "name": "Can delete group",
+            "content_type": 3,
+            "codename": "delete_group"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 12,
+        "fields": {
+            "name": "Can view group",
+            "content_type": 3,
+            "codename": "view_group"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 13,
+        "fields": {
+            "name": "Can add user",
+            "content_type": 4,
+            "codename": "add_user"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 14,
+        "fields": {
+            "name": "Can change user",
+            "content_type": 4,
+            "codename": "change_user"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 15,
+        "fields": {
+            "name": "Can delete user",
+            "content_type": 4,
+            "codename": "delete_user"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 16,
+        "fields": {
+            "name": "Can view user",
+            "content_type": 4,
+            "codename": "view_user"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 17,
+        "fields": {
+            "name": "Can add content type",
+            "content_type": 5,
+            "codename": "add_contenttype"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 18,
+        "fields": {
+            "name": "Can change content type",
+            "content_type": 5,
+            "codename": "change_contenttype"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 19,
+        "fields": {
+            "name": "Can delete content type",
+            "content_type": 5,
+            "codename": "delete_contenttype"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 20,
+        "fields": {
+            "name": "Can view content type",
+            "content_type": 5,
+            "codename": "view_contenttype"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 21,
+        "fields": {
+            "name": "Can add session",
+            "content_type": 6,
+            "codename": "add_session"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 22,
+        "fields": {
+            "name": "Can change session",
+            "content_type": 6,
+            "codename": "change_session"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 23,
+        "fields": {
+            "name": "Can delete session",
+            "content_type": 6,
+            "codename": "delete_session"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 24,
+        "fields": {
+            "name": "Can view session",
+            "content_type": 6,
+            "codename": "view_session"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 25,
+        "fields": {
+            "name": "Can add student",
+            "content_type": 7,
+            "codename": "add_student"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 26,
+        "fields": {
+            "name": "Can change student",
+            "content_type": 7,
+            "codename": "change_student"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 27,
+        "fields": {
+            "name": "Can delete student",
+            "content_type": 7,
+            "codename": "delete_student"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 28,
+        "fields": {
+            "name": "Can view student",
+            "content_type": 7,
+            "codename": "view_student"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 29,
+        "fields": {
+            "name": "Can add result",
+            "content_type": 8,
+            "codename": "add_result"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 30,
+        "fields": {
+            "name": "Can change result",
+            "content_type": 8,
+            "codename": "change_result"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 31,
+        "fields": {
+            "name": "Can delete result",
+            "content_type": 8,
+            "codename": "delete_result"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 32,
+        "fields": {
+            "name": "Can view result",
+            "content_type": 8,
+            "codename": "view_result"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 33,
+        "fields": {
+            "name": "Can add subject",
+            "content_type": 9,
+            "codename": "add_subject"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 34,
+        "fields": {
+            "name": "Can change subject",
+            "content_type": 9,
+            "codename": "change_subject"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 35,
+        "fields": {
+            "name": "Can delete subject",
+            "content_type": 9,
+            "codename": "delete_subject"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 36,
+        "fields": {
+            "name": "Can view subject",
+            "content_type": 9,
+            "codename": "view_subject"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 37,
+        "fields": {
+            "name": "Can add admin user",
+            "content_type": 10,
+            "codename": "add_adminuser"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 38,
+        "fields": {
+            "name": "Can change admin user",
+            "content_type": 10,
+            "codename": "change_adminuser"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 39,
+        "fields": {
+            "name": "Can delete admin user",
+            "content_type": 10,
+            "codename": "delete_adminuser"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 40,
+        "fields": {
+            "name": "Can view admin user",
+            "content_type": 10,
+            "codename": "view_adminuser"
+        }
+    },
+    {
+        "model": "auth.group",
+        "pk": 1,
+        "fields": {
+            "name": "student",
+            "permissions": [
+                32,
+                28,
+                36,
+                24
+            ]
+        }
+    },
+    {
+        "model": "auth.group",
+        "pk": 2,
+        "fields": {
+            "name": "admin",
+            "permissions": [
+                1,
+                2,
+                3,
+                4,
+                9,
+                10,
+                11,
+                12,
+                5,
+                6,
+                7,
+                8,
+                13,
+                14,
+                15,
+                16,
+                17,
+                18,
+                19,
+                20,
+                37,
+                38,
+                39,
+                40,
+                29,
+                30,
+                31,
+                32,
+                25,
+                26,
+                27,
+                28,
+                33,
+                34,
+                35,
+                36,
+                21,
+                22,
+                23,
+                24
+            ]
+        }
+    },
+    {
+        "model": "auth.user",
+        "pk": 1,
+        "fields": {
+            "password": "pbkdf2_sha256$216000$BDV9HNKnr6ml$gQp338Hu8jBFtscYLnzo4pQeEF51sGO9AZQ0CqjPK44=",
+            "last_login": "2021-12-01T07:17:58.758Z",
+            "is_superuser": true,
+            "username": "admin",
+            "first_name": "",
+            "last_name": "",
+            "email": "admin@admin.com",
+            "is_staff": true,
+            "is_active": true,
+            "date_joined": "2021-12-01T05:22:45Z",
+            "groups": [
+                2
+            ],
+            "user_permissions": [
+                1,
+                2,
+                3,
+                4,
+                9,
+                10,
+                11,
+                12,
+                5,
+                6,
+                7,
+                8,
+                13,
+                14,
+                15,
+                16,
+                17,
+                18,
+                19,
+                20,
+                37,
+                38,
+                39,
+                40,
+                29,
+                30,
+                31,
+                32,
+                25,
+                26,
+                27,
+                28,
+                33,
+                34,
+                35,
+                36,
+                21,
+                22,
+                23,
+                24
+            ]
+        }
+    },
+    {
+        "model": "auth.user",
+        "pk": 2,
+        "fields": {
+            "password": "pbkdf2_sha256$216000$i893H9dbx6yN$Pe3zGCQ0JU/Eeip7ElMw4hrz/TDXpznW73vd+12qvv0=",
+            "last_login": "2021-12-01T16:04:21.161Z",
+            "is_superuser": false,
+            "username": "neyamul",
+            "first_name": "",
+            "last_name": "",
+            "email": "bestsbr132@gmail.com",
+            "is_staff": false,
+            "is_active": true,
+            "date_joined": "2021-12-01T05:56:52.440Z",
+            "groups": [
+                1
+            ],
+            "user_permissions": []
+        }
+    },
+    {
+        "model": "auth.user",
+        "pk": 3,
+        "fields": {
+            "password": "pbkdf2_sha256$216000$07sWIk9snUPw$zAcAj6cdQIwnkMj2jxdlxbez+UvRGjF9dreWx7HRmRw=",
+            "last_login": "2021-12-01T16:04:10.005Z",
+            "is_superuser": false,
+            "username": "neyamul2",
+            "first_name": "",
+            "last_name": "",
+            "email": "bestsbr132@gmail.com",
+            "is_staff": false,
+            "is_active": true,
+            "date_joined": "2021-12-01T05:57:16.701Z",
+            "groups": [
+                1
+            ],
+            "user_permissions": []
+        }
+    },
+    {
+        "model": "auth.user",
+        "pk": 4,
+        "fields": {
+            "password": "pbkdf2_sha256$216000$zVnIsBRJRXUV$JtFEOl6aj5/mzYcyAAFqK1kgovybFkq5z8tYm5JHMFE=",
+            "last_login": null,
+            "is_superuser": false,
+            "username": "neyamul3",
+            "first_name": "",
+            "last_name": "",
+            "email": "bestsbr133@gmail.com",
+            "is_staff": false,
+            "is_active": true,
+            "date_joined": "2021-12-01T05:57:56.891Z",
+            "groups": [
+                1
+            ],
+            "user_permissions": []
+        }
+    },
+    {
+        "model": "auth.user",
+        "pk": 5,
+        "fields": {
+            "password": "pbkdf2_sha256$216000$DmwKI8ZMQupw$44w9SP6DxxwYnjNbQH6tJnz2eReCI6QuuaMTStsWv+Q=",
+            "last_login": null,
+            "is_superuser": false,
+            "username": "neyamul4",
+            "first_name": "",
+            "last_name": "",
+            "email": "bestsbr134@gmail.com",
+            "is_staff": false,
+            "is_active": true,
+            "date_joined": "2021-12-01T05:58:34.760Z",
+            "groups": [
+                1
+            ],
+            "user_permissions": []
+        }
+    },
+    {
+        "model": "auth.user",
+        "pk": 6,
+        "fields": {
+            "password": "pbkdf2_sha256$216000$jBNoNHsHRuve$VopgNrenhMxHgJDR+nW7lr69a9mczUrmhkLk0FUJfyo=",
+            "last_login": null,
+            "is_superuser": false,
+            "username": "imtiaz",
+            "first_name": "",
+            "last_name": "",
+            "email": "bestsbr135@gmail.com",
+            "is_staff": false,
+            "is_active": true,
+            "date_joined": "2021-12-01T05:59:10.293Z",
+            "groups": [
+                1
+            ],
+            "user_permissions": []
+        }
+    },
+  
+    {
+        "model": "sessions.session",
+        "pk": "xtsndkl13l09l8kw9cv38o9mcppxgxrj",
+        "fields": {
+            "session_data": ".eJxVjEEOwiAQRe_C2hAYBhCX7nsGAsxUqoYmpV0Z765NutDtf-_9l4hpW2vcOi9xInERIE6_W07lwW0HdE_tNssyt3WZstwVedAuh5n4eT3cv4Oaev3WAZQnGzwql0lbzm70eWQmpJR0sGQcGsuMuYB36M8GilZaGfYFLYB4fwDjGDdv:1msS5l:umZ8uoeaz1KuAIKXVaVt44DzVH7EX_s89fhE40-0Plo",
+            "expire_date": "2021-12-15T16:04:21.163Z"
+        }
+    },
+    {
+        "model": "main.student",
+        "pk": "2017331047",
+        "fields": {
+            "user": 2,
+            "name": "Md Neyamul Islam",
+            "phone": "01716415094",
+            "profile_pic": "68305701.jfif"
+        }
+    },
+    {
+        "model": "main.student",
+        "pk": "2017331048",
+        "fields": {
+            "user": 3,
+            "name": "Md Neyamul Islam2",
+            "phone": "01716415095",
+            "profile_pic": "admin_vaUpBuh.jpg"
+        }
+    },
+    {
+        "model": "main.student",
+        "pk": "2017331049",
+        "fields": {
+            "user": 4,
+            "name": "Md Neyamul Islam3",
+            "phone": "01716415096",
+            "profile_pic": "216221745_4180215805402668_3510409037437385906_n_OPonA1a.jpg"
+        }
+    },
+    {
+        "model": "main.student",
+        "pk": "2017331050",
+        "fields": {
+            "user": 5,
+            "name": "Md Neyamul Islam4",
+            "phone": "01716415097",
+            "profile_pic": "Screenshot_11_CnV0ZeG.png"
+        }
+    },
+    {
+        "model": "main.student",
+        "pk": "2017331051",
+        "fields": {
+            "user": 6,
+            "name": "Imtiaz",
+            "phone": "01716415097",
+            "profile_pic": "Screenshot_15_HgD6OYO.png"
+        }
+    },
+    {
+        "model": "main.adminuser",
+        "pk": 1,
+        "fields": {
+            "user": 1,
+            "name": "Admin Khan",
+            "phone": "01404940964",
+            "profile_pic": "admin.jpg"
+        }
+    },
+    {
+        "model": "main.result",
+        "pk": 1,
+        "fields": {
+            "student": "2017331047",
+            "course_code": "CSE333",
+            "marks": 80,
+            "attendence": 5
+        }
+    },
+    {
+        "model": "main.result",
+        "pk": 2,
+        "fields": {
+            "student": "2017331047",
+            "course_code": "CSE334",
+            "marks": 70,
+            "attendence": 6
+        }
+    },
+    {
+        "model": "main.result",
+        "pk": 3,
+        "fields": {
+            "student": "2017331047",
+            "course_code": "CSE335",
+            "marks": 90,
+            "attendence": 7
+        }
+    },
+    {
+        "model": "main.result",
+        "pk": 4,
+        "fields": {
+            "student": "2017331048",
+            "course_code": "CSE334",
+            "marks": 90,
+            "attendence": 7
+        }
+    },
+    {
+        "model": "main.result",
+        "pk": 5,
+        "fields": {
+            "student": "2017331048",
+            "course_code": "CSE335",
+            "marks": 90,
+            "attendence": 7
+        }
+    },
+    {
+        "model": "main.result",
+        "pk": 6,
+        "fields": {
+            "student": "2017331048",
+            "course_code": "CSE336",
+            "marks": 82,
+            "attendence": 9
+        }
+    },
+    {
+        "model": "main.result",
+        "pk": 7,
+        "fields": {
+            "student": "2017331049",
+            "course_code": "CSE334",
+            "marks": 95,
+            "attendence": 3
+        }
+    },
+    {
+        "model": "main.result",
+        "pk": 8,
+        "fields": {
+            "student": "2017331049",
+            "course_code": "CSE335",
+            "marks": 81,
+            "attendence": 6
+        }
+    },
+    {
+        "model": "main.result",
+        "pk": 9,
+        "fields": {
+            "student": "2017331047",
+            "course_code": "CSE336",
+            "marks": 60,
+            "attendence": 4
+        }
+    },
+    {
+        "model": "main.subject",
+        "pk": 1,
+        "fields": {
+            "course_code": "CSE333",
+            "subject_name": "Compiler",
+            "credit": 3.0,
+            "subtype": "Programming"
+        }
+    },
+    {
+        "model": "main.subject",
+        "pk": 2,
+        "fields": {
+            "course_code": "CSE334",
+            "subject_name": "Networking",
+            "credit": 3.0,
+            "subtype": "Net"
+        }
+    },
+    {
+        "model": "main.subject",
+        "pk": 3,
+        "fields": {
+            "course_code": "CSE335",
+            "subject_name": "C",
+            "credit": 3.0,
+            "subtype": "Language"
+        }
+    },
+    {
+        "model": "main.subject",
+        "pk": 4,
+        "fields": {
+            "course_code": "CSE336",
+            "subject_name": "Calculus",
+            "credit": 2.0,
+            "subtype": "Math"
+        }
+    }
+]

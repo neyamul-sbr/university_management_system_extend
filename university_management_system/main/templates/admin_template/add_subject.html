@@ -1,0 +1,61 @@
+{%extends 'main/main_home.html'%}
+{%block content%}
+<body>
+
+      <!-- partial -->
+      <div class="main-panel">        
+        <div class="content-wrapper">
+          {% include 'main/message.html' %}
+            <div class="col-md-12 grid-margin stretch-card">
+              <div class="card">
+                <div class="card-body">
+                  <h4 class="card-title">Subject Registration</h4>
+                  <p class="card-description">
+                    Subject Can Only Be Registered By Admin
+                  </p>
+                   
+                  <form action = "" method="POST" enctype="multipart/form-data" class="forms-sample">
+                    {% csrf_token %}
+                    <div class="form-group row">
+                      <label for="exampleInputUsername2" class="col-sm-3 col-form-label">Course Code: </label>
+                      <div class="col-sm-9">
+                        {{form.course_code}}
+                  
+                      </div>
+                    </div>
+                    <div class="form-group row">
+                      <label for="exampleInputEmail2" class="col-sm-3 col-form-label">Subject's Name: </label>
+                      <div class="col-sm-9">
+                        {{form.subject_name}}
+                      </div>
+                    </div>
+                    <!-- <div class="form-group row">
+                      <label for="exampleInputMobile" class="col-sm-3 col-form-label">Mobile</label>
+                      <div class="col-sm-9">
+                        <input type="text" class="form-control" id="exampleInputMobile" placeholder="Mobile number">
+                      </div>
+                    </div> -->
+                    <div class="form-group row">
+                      <label for="exampleInputPassword2" class="col-sm-3 col-form-label">Password</label>
+                      <div class="col-sm-9">
+                        {{form.credit}}
+                      </div>
+                    </div>
+                    <div class="form-group row">
+                      <label for="exampleInputConfirmPassword2" class="col-sm-3 col-form-label">Re Password</label>
+                      <div class="col-sm-9">
+                        {{form.subtype}}
+                      </div>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary mr-2">Submit</button>
+                    <!-- <button class="btn btn-light">Cancel</button> -->
+                  </form>
+                </div>
+              </div>
+            </div>
+            </div>
+          </div>
+
+        
+          {%endblock%}

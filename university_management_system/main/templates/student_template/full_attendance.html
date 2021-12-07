@@ -1,0 +1,27 @@
+{%extends 'main/main_home_student.html'%} {%block content%}
+<div class="main-panel">
+    <div class="content-wrapper">
+        <div class="row">
+            <div class="col-md-12 full-height grid-margin stretch-card">
+              <div class="card">
+                <div class="card-body">
+                  <div class="d-flex justify-content-between">
+                    <p class="card-title">Attendence</p>
+                    <a href="{% url 'home' %}" class="text-info">Go Back</a>
+                  </div>
+                  <p class="font-weight-500">
+                  Attendence Marks Of all the subjects that you have Passed 
+                  </p>
+                  <div id="sales-legend" class="chartjs-legend mt-4 mb-2"></div>
+                  <canvas id="sales-chart" data-url="{% url 'get_att' %}"></canvas>
+                </div>
+              </div>
+            </div>
+        </div>
+
+
+    </div>
+</div>
+
+
+{%endblock%}

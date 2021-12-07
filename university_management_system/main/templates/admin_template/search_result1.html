@@ -1,0 +1,26 @@
+{%extends 'main/main_home.html'%} {%block content%}
+
+<div class="main-panel">
+  <div class="content-wrapper">
+    <div class="row">
+      <div class="col-md-12 grid-margin stretch-card">
+        <div class="card">
+          <div class="card-body">
+            <h4 class="card-title">Search</h4>
+            <p class="card-description">Search Student</p>
+            <form action="" method="POST" class="forms-sample">
+              {% csrf_token %}
+              <div class="form-group">
+                <input type="text" name="registration_number"  class="form-control form-control-lg" id="exampleInputEmail1" placeholder="Registration Number">
+              </div>
+              <button type="submit" class="btn btn-primary mr-2">Search</button>
+              <a href="{% url 'home' %}" class="btn btn-light" role="button">Cancel</a>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{%endblock%}

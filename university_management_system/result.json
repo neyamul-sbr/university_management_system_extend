@@ -1,0 +1,162 @@
+[
+    {
+        "model": "main.result",
+        "pk": 1,
+        "fields": {
+            "student": "2017331047",
+            "course_code": "CSE333",
+            "marks": 80,
+            "attendence": 5
+        }
+    },
+    {
+        "model": "main.result",
+        "pk": 2,
+        "fields": {
+            "student": "2017331047",
+            "course_code": "CSE334",
+            "marks": 70,
+            "attendence": 6
+        }
+    },
+    {
+        "model": "main.result",
+        "pk": 3,
+        "fields": {
+            "student": "2017331047",
+            "course_code": "CSE335",
+            "marks": 90,
+            "attendence": 7
+        }
+    },
+    {
+        "model": "main.result",
+        "pk": 4,
+        "fields": {
+            "student": "2017331048",
+            "course_code": "CSE334",
+            "marks": 90,
+            "attendence": 7
+        }
+    },
+    {
+        "model": "main.result",
+        "pk": 5,
+        "fields": {
+            "student": "2017331048",
+            "course_code": "CSE335",
+            "marks": 90,
+            "attendence": 7
+        }
+    },
+    {
+        "model": "main.result",
+        "pk": 6,
+        "fields": {
+            "student": "2017331048",
+            "course_code": "CSE336",
+            "marks": 82,
+            "attendence": 9
+        }
+    },
+    {
+        "model": "main.result",
+        "pk": 7,
+        "fields": {
+            "student": "2017331049",
+            "course_code": "CSE334",
+            "marks": 95,
+            "attendence": 3
+        }
+    },
+    {
+        "model": "main.result",
+        "pk": 8,
+        "fields": {
+            "student": "2017331049",
+            "course_code": "CSE335",
+            "marks": 81,
+            "attendence": 6
+        }
+    },
+    {
+        "model": "main.result",
+        "pk": 9,
+        "fields": {
+            "student": "2017331047",
+            "course_code": "CSE336",
+            "marks": 60,
+            "attendence": 4
+        }
+    },
+    {
+        "model": "main.result",
+        "pk": 10,
+        "fields": {
+            "student": "2017331047",
+            "course_code": "CSE356",
+            "marks": 90,
+            "attendence": 10
+        }
+    },
+    {
+        "model": "main.result",
+        "pk": 11,
+        "fields": {
+            "student": "2017331047",
+            "course_code": "CSE555",
+            "marks": 40,
+            "attendence": 6
+        }
+    },
+    {
+        "model": "main.result",
+        "pk": 12,
+        "fields": {
+            "student": "2017331047",
+            "course_code": "CSE233",
+            "marks": 20,
+            "attendence": 3
+        }
+    },
+    {
+        "model": "main.result",
+        "pk": 14,
+        "fields": {
+            "student": "2017331047",
+            "course_code": "CSE602",
+            "marks": 35,
+            "attendence": 5
+        }
+    },
+    {
+        "model": "main.result",
+        "pk": 16,
+        "fields": {
+            "student": "2017331048",
+            "course_code": "CSE602",
+            "marks": 100,
+            "attendence": 10
+        }
+    },
+    {
+        "model": "main.result",
+        "pk": 17,
+        "fields": {
+            "student": "2017331049",
+            "course_code": "CSE233",
+            "marks": 100,
+            "attendence": 10
+        }
+    },
+    {
+        "model": "main.result",
+        "pk": 18,
+        "fields": {
+            "student": "2017331049",
+            "course_code": "CSE555",
+            "marks": 100,
+            "attendence": 10
+        }
+    }
+]

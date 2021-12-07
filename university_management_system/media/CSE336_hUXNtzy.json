@@ -1,0 +1,122 @@
+[
+    {
+        "course_code": "BBA100",
+        "student_id": 2017331047,
+        "attendence": 8,
+        "marks": 76
+    },
+    {
+        "course_code": "CSE336",
+        "student_id": 2017331002,
+        "attendence": 9,
+        "marks": 82
+    },
+    {
+        "course_code": "CSE336",
+        "student_id": 2017331003,
+        "attendence": 9,
+        "marks": 81
+    },
+    {
+        "course_code": "CSE336",
+        "student_id": 2017331004,
+        "attendence": 6,
+        "marks": 72
+    },
+    {
+        "course_code": "CSE336",
+        "student_id": 2017331005,
+        "attendence": 8,
+        "marks": 78
+    },
+    {
+        "course_code": "CSE336",
+        "student_id": 2017331006,
+        "attendence": 9,
+        "marks": 75
+    },
+    {
+        "course_code": "CSE336",
+        "student_id": 2017331007,
+        "attendence": 4,
+        "marks": 66
+    },
+    {
+        "course_code": "CSE336",
+        "student_id": 2017331008,
+        "attendence": 10,
+        "marks": 73
+    },
+    {
+        "course_code": "CSE336",
+        "student_id": 2017331009,
+        "attendence": 8,
+        "marks": 75
+    },
+    {
+        "course_code": "CSE336",
+        "student_id": 20173310010,
+        "attendence": 7,
+        "marks": 77
+    },
+    {
+        "course_code": "CSE336",
+        "student_id": 20173310011,
+        "attendence": 9,
+        "marks": 87
+    },
+    {
+        "course_code": "CSE336",
+        "student_id": 20173310012,
+        "attendence": 5,
+        "marks": 62
+    },
+    {
+        "course_code": "CSE336",
+        "student_id": 20173310013,
+        "attendence": 6,
+        "marks": 68
+    },
+    {
+        "course_code": "CSE336",
+        "student_id": 20173310014,
+        "attendence": 6,
+        "marks": 71
+    },
+    {
+        "course_code": "CSE336",
+        "student_id": 20173310015,
+        "attendence": 9,
+        "marks": 82
+    },
+    {
+        "course_code": "CSE336",
+        "student_id": 20173310016,
+        "attendence": 5,
+        "marks": 58
+    },
+    {
+        "course_code": "CSE336",
+        "student_id": 20173310017,
+        "attendence": 9,
+        "marks": 75
+    },
+    {
+        "course_code": "CSE336",
+        "student_id": 20173310018,
+        "attendence": 4,
+        "marks": 43
+    },
+    {
+        "course_code": "CSE336",
+        "student_id": 20173310019,
+        "attendence": 10,
+        "marks": 84
+    },
+    {
+        "course_code": "CSE336",
+        "student_id": 20173310020,
+        "attendence": 5,
+        "marks": 72
+    }
+]

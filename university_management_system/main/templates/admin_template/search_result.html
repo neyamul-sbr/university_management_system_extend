@@ -1,0 +1,36 @@
+{%extends 'main/main_home.html'%} {%block content%}
+
+<div class="main-panel">
+  <div class="content-wrapper">
+    <div class="row">
+      <div class="col-md-12 grid-margin stretch-card">
+        <div class="card">
+          <div class="card-body">
+            <h4 class="card-title">Select the Course</h4>
+            <p class="card-description">Select Student's Registered Course</p>
+            <form action="" method="POST" class="forms-sample">
+              {% csrf_token %}
+              <div class="form-group">
+                <input type="text" name="registration_number"  value ="{{regi}}" readonly="readonly"class="form-control form-control-lg" id="exampleInputEmail1" placeholder="Registration Number">
+              </div>
+              <div class="form-group">
+                <!-- <input type="text" name="course_code" class="form-control form-control-lg" id="exampleInputPassword1" placeholder="Course Code"> -->
+                <label for="cars">Choose A Registered Course</label>
+
+<select name="course_code"  class="form-control form-control-lg" id="cars">
+  {%for c in course%}
+  <option value="{{c.course_code}}" {% if c in selected_values %} selected {% endif %}>{{c.course_code}}</option>
+  {% endfor %}
+</select>
+              </div>
+              <button type="submit" class="btn btn-primary mr-2">Select</button>
+              <a href="{% url 'search_result1' %}" class="btn btn-light" role="button">Cancel</a>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{%endblock%}

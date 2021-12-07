@@ -1,0 +1,14 @@
+[
+    {
+        "course_code": "CSE433",
+        "student_id": "2017331001",
+        "attendence": 8,
+        "marks": 76
+    },
+    {
+        "course_code": "CSE433",
+        "student_id": "2017331002",
+        "attendence": 9,
+        "marks": 82
+    }
+]

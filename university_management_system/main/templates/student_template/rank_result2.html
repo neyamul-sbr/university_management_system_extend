@@ -1,0 +1,52 @@
+{%extends 'main/main_home_student.html'%} {%block content%}
+
+<div class="main-panel">
+    <div class="content-wrapper">
+        <div class="col-lg-12 grid-margin stretch-card">
+            <div class="card">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                        <p class="card-title">Ranksheet : {{subject_name}} ({{course_id}})</b></p>
+                
+                    </div>
+
+                    <p class="card-description">
+                        This is the ranking result of {{subject_name}}  
+                    </p>
+                    <p class ="text-info">
+                        Your Rank is <b>{{rank}}</b>  
+                    </p>
+
+
+
+
+                    <table class="table table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th>Rank</th>
+                                <th>Student's Name</th>
+                                <th>Registration Number</th>
+                                <th>Marks</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for person in data %}
+                            <tr>
+                                <td>{{ person.id }}</td>
+                                <td>{{ person.name }}</td>
+                                <td>{{ person.regi }}</td>
+                                <td>{{ person.marks }}</td>
+
+                            </tr>
+                            {% endfor %}
+
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{%endblock%}

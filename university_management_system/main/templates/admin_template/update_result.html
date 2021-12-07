@@ -1,0 +1,57 @@
+{%extends 'main/main_home.html'%}
+{%block content%}
+
+<div class="main-panel">        
+    <div class="content-wrapper">
+      {% include 'main/message.html' %}
+        <div class="col-md-12 grid-margin stretch-card">
+
+          <div class="card">
+            <div class="card-body">
+              <h4 class="card-title">Edit Result</h4>
+              <p class="card-description style="color:red;>
+                Marks and Attendance of  <b>{{regi}}</b>  Can be Updated Here  
+              </p>
+               
+              <form action = "" method="POST" enctype="multipart/form-data" class="forms-sample">
+                {% csrf_token %}
+                <div class="form-group row">
+                  <label for="exampleInputUsername2" class="col-sm-3 col-form-label">Course Code:</label>
+                  <div class="col-sm-9">
+                    {{form.course_code}}
+              
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label for="exampleInputEmail2" class="col-sm-3 col-form-label">Marks:</label>
+                  <div class="col-sm-9">
+                    {{form.marks}}
+                  </div>
+                </div>
+                <!-- <div class="form-group row">
+                  <label for="exampleInputMobile" class="col-sm-3 col-form-label">Mobile</label>
+                  <div class="col-sm-9">
+                    <input type="text" class="form-control" id="exampleInputMobile" placeholder="Mobile number">
+                  </div>
+                </div> -->
+                <div class="form-group row">
+                    <label for="exampleInputEmail2" class="col-sm-3 col-form-label">Attendance:</label>
+                    <div class="col-sm-9">
+                      {{form.attendence}}
+                    </div>
+                  </div>
+
+
+                </div>
+                <button type="submit" class="btn btn-primary mr-2">Submit</button>
+                <!-- <button class="btn btn-light">Cancel</button> -->
+              </form>
+            </div>
+          </div>
+        </div>
+        </div>
+      </div>
+  </div>
+</div>
+
+{%endblock%}

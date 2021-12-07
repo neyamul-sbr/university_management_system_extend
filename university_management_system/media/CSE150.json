@@ -1,0 +1,32 @@
+[
+    {
+        "course_code": "CSE150",
+        "student_id": "2017331001",
+        "attendence": 8,
+        "marks": 76
+    },
+    {
+        "course_code": "CSE150",
+        "student_id": "2017331002",
+        "attendence": 9,
+        "marks": 82
+    },
+    {
+        "course_code": "CSE150",
+        "student_id": "2017331048",
+        "attendence": 9,
+        "marks": 82
+    },
+    {
+        "course_code": "CSE150",
+        "student_id": "2017331001",
+        "attendence": 9,
+        "marks": 82
+    },
+    {
+        "course_code": "CSE150",
+        "student_id": "2017331002",
+        "attendence": 9,
+        "marks": 82
+    }
+]
