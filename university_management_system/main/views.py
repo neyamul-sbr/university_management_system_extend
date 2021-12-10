@@ -488,25 +488,29 @@ def see_registration_status(request, *args, **kwargs):
     print(regi)
     dep = request.user.student.dept
     register = Result.objects.raw('''
-    SELECT 1 as id, status, subject_id, dept_id as sub FROM main_registertable
+    SELECT 1 as id, status, subject_id, dept_id as sub, dept_id as teacher FROM main_registertable
 	where student_id = %s ''',[regi])
 
     for i in register:
         c_id = i.subject_id
-        subject_name = Subject.objects.get(course_code = c_id).subject_name       
+        subject_name = Subject.objects.get(course_code = c_id).subject_name    
+        assi_tea = AssignedTeacher2.objects.get(course_code = c_id, student_dept = i.sub).teacher_id
+        teacher_name = Teacher.objects.get(teacher_id = assi_tea).name
+        print(teacher_name)
         i.sub = subject_name
+        i.teacher = teacher_name
     attr=[]
     attr.append("course_code")
     attr.append("subject_name")
     attr.append("status")
-    #attr.append("regi")
+    attr.append("teacher")
     json_res =[]
     for i in register:
         obj = {}
         obj[attr[0]] = i.subject_id
         obj[attr[1]] = i.sub
         obj[attr[2]]= i.status
-        #obj[attr[3]]= regi
+        obj[attr[3]]= i.teacher
         json_res.append(obj)
     return JsonResponse(json_res, safe= False)
     
