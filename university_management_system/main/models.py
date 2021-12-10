@@ -101,6 +101,7 @@ class Result(models.Model):
     theory_marks  = models.IntegerField(null = True)
     term_test  = models.IntegerField(null = True)
     attendence = models.IntegerField(null = True)
+    total = models.FloatField(null = True)
     dept =models.CharField(max_length= 200)
     class Meta:
         unique_together = (("student","course_code"))

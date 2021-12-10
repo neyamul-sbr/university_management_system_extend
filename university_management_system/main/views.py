@@ -802,8 +802,6 @@ def add_j(request):
         y=json.load(f)
 
 
-
-        cursor = connections['default'].cursor()
         for i in range(0, len(y)):
             
             course = code
@@ -924,6 +922,8 @@ def assign_teacher(request, dept_id):
 def student_sub_register(request):
     dept_name = request.user.student.dept
     dpt_name =str(dept_name)
+    regi = str(request.user.student.registration_number)
+
 
     data = AssignedTeacher2.objects.raw('''
         SELECT 1 as id, course_code as cc, teacher_id as tid ,dept_id as did, dept_id as tname FROM main_assignedteacher2
@@ -931,8 +931,13 @@ def student_sub_register(request):
     
 
     for i in data:
+        ctt = RegisterTable.objects.filter(subject_id = i.cc, student_id = regi).first()
+        
         teacher_name = Teacher.objects.get(teacher_id = i.tid).name
         i.tname = teacher_name
+        if ctt != None:
+            i.tname = i.tname + "-->Already Requested."
+            
     context = {'data':data}
 
     if request.method == "POST":
@@ -953,7 +958,10 @@ def student_sub_register(request):
 
             )
             ss.save()
-            messages.success(request, "It has gone for approval to Teacher")         
+            messages.success(request, "It has gone for approval to Teacher")
+            return redirect('home')
+        else:
+            messages.success(request, "You have already Requested for approval on this Subject. See your Registration table for Registration Status")   
     
     return render(request,'teacher_template/student_sub_register.html',context)
 
