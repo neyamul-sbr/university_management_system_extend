@@ -104,4 +104,39 @@ class AddSubjectForm(ModelForm):
     class Meta:
         model = Subject
         fields = '__all__'
+    
+
+class TeacherForm(ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(TeacherForm, self).__init__(*args, **kwargs)
+        self.fields['name'].widget.attrs['class'] = 'form-control'
+        self.fields['name'].widget.attrs['placeholder'] = "Teachers's Name"
+        self.fields['dept'].widget.attrs['class'] = 'form-control'
+        self.fields['dept'].widget.attrs['placeholder'] = "Teacher's Dept"
+        self.fields['teacher_id'].widget.attrs['class'] = 'form-control'
+        self.fields['teacher_id'].widget.attrs['placeholder'] = "Teachers's ID"
+        self.fields['phone'].widget.attrs['class'] = 'form-control'
+        self.fields['phone'].widget.attrs['placeholder'] = "Teacher's Phone"
+
+
+    class Meta:
+        model = Teacher
+        fields = ['name','dept','teacher_id','phone','profile_pic',]
+
+
+class DepartmentForm(ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(DepartmentForm, self).__init__(*args, **kwargs)
+        self.fields['name'].widget.attrs['class'] = 'form-control'
+        self.fields['name'].widget.attrs['placeholder'] = "Department Name"
+        self.fields['dept_id'].widget.attrs['class'] = 'form-control'
+        self.fields['dept_id'].widget.attrs['placeholder'] = "Department ID"
+    class Meta:
+        model = Dept
+        fields = ['name','dept_id',]
+
+    
+
+
+
 

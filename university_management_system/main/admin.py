@@ -5,5 +5,10 @@ admin.site.register(Student)
 admin.site.register(AdminUser)
 admin.site.register(Result)
 admin.site.register(Subject)
+admin.site.register(Dept)
+admin.site.register(RegisterTable)
+admin.site.register(Teacher)
+admin.site.register(AssignedTeacher)
+
 # Register your models here.
 

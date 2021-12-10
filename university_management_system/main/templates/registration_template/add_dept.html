@@ -1,0 +1,47 @@
+{%extends 'main/main_home.html'%}
+{%block content%}
+
+
+      <!-- partial -->
+
+      <div class="main-panel">        
+        <div class="content-wrapper">
+          {% include 'main/message.html' %}
+          
+            <div class="col-md-12 grid-margin stretch-card">
+
+              <div class="card">
+                <div class="card-body">
+                  <h4 class="card-title">Add Department</h4>
+                  <p class="card-description">
+                    A Department Can only be added by another Admin  
+                  </p>
+                   
+                  <form action = "" method="POST" enctype="multipart/form-data" class="forms-sample">
+                    {% csrf_token %}
+                    <div class="form-group row">
+                      <label for="exampleInputUsername2" class="col-sm-3 col-form-label">Department Name: </label>
+                      <div class="col-sm-9">
+                        {{form.name}}
+                  
+                      </div>
+                    </div>
+                    <div class="form-group row">
+                      <label for="exampleInputEmail2" class="col-sm-3 col-form-label">Department ID: </label>
+                      <div class="col-sm-9">
+                        {{form.dept_id}}
+                      </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary mr-2">Submit</button>
+                    <!-- <button class="btn btn-light">Cancel</button> -->
+                  </form>
+                </div>
+              </div>
+            </div>
+            </div>
+          </div>
+      </div>
+    </div>
+
+           
+    {%endblock%}

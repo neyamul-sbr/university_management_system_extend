@@ -23,7 +23,7 @@ from .forms import *
 from django.contrib import messages
 
 from django.contrib.auth import authenticate, login, logout
-from .decorators import allowed_users, unauthenticated_user
+from .decorators import allowed_users, unauthenticated_user,allowed_users_home
 from django.http import HttpResponse
 from django.views.generic import View
 
@@ -58,6 +58,10 @@ def cal_cg(marks):
         return 0.00
 
 
+
+
+##-----------------------------LOG IN AND REGISTER--------------------------------------------------------###
+
 @unauthenticated_user
 def loginPage(request):
     if request.method == 'POST':
@@ -74,6 +78,34 @@ def loginPage(request):
         
 
     return render(request, 'login_template/login1.html')
+
+@login_required(login_url = 'login')
+@allowed_users(allowed_roles=['admin'])
+def registerPageTeacher(request):
+    user_form = CreateUserForm(request.POST or None) 
+    teacher_form = TeacherForm(request.POST or None, request.FILES or None)
+    context = {'teacher_form': teacher_form,'user_form':user_form, 'page_title':'add student'}
+    if request.method == 'POST':
+        if user_form.is_valid and teacher_form.is_valid():
+            user = user_form.save()
+            teacher = teacher_form.save()
+            teacher.user =user
+            teacher.save()
+            # username = student_form.cleaned_data.get('username')
+            # email = student_form.cleaned_data.get('email')
+            # password1 = student_form.cleaned_data.get('password1')
+            # password2 = student_form.cleaned_data.get('password2')
+            # name = student_form.cleaned_data.get('name')
+            # name = student_form.cleaned_data.get('phone')
+            # passport = request.FILES['profile_pic']
+            # fs = FileSystemStorage()
+            # filename = fs.save(passport.name, passport)
+            # passport_url = fs.url(filename)
+            group = Group.objects.get(name = 'teacher')
+            user.groups.add(group)
+        else:
+            messages.success(request, "Successfully Teacher Added")
+    return render(request, 'registration_template/add_teacher.html',context)
 
 @login_required(login_url = 'login')
 @allowed_users(allowed_roles=['admin'])
@@ -107,49 +139,55 @@ def logoutPage(request):
     logout(request)
     return redirect('login') 
 
+##-----------------------------------------------LOG IN END -------------------------------------------------------###
 
+
+
+
+
+##----------------------------------------------- HOME PAGE ----------------------------------------------------------##
 @login_required(login_url = 'login')
-@allowed_users(allowed_roles=['admin'])
+@allowed_users_home(allowed_roles=['admin', 'teacher'])
 def home(request):
-    name = request.user.adminuser.name
-    std1  = Subject.objects.raw('''
-        SELECT 1 as id, COUNT(*) as cnt
-        FROM main_student; ''')
-    sub2  =  Subject.objects.raw('''
-        SELECT 1 as id, COUNT(*) as cnt
-        FROM main_subject; ''')
-    admin_cnt2 =  Subject.objects.raw('''
-        SELECT 1 as id, COUNT(*) as cnt
-        FROM main_adminuser; ''')
+    # name = request.user.adminuser.name
+    # std1  = Subject.objects.raw('''
+    #     SELECT 1 as id, COUNT(*) as cnt
+    #     FROM main_student; ''')
+    # sub2  =  Subject.objects.raw('''
+    #     SELECT 1 as id, COUNT(*) as cnt
+    #     FROM main_subject; ''')
+    # admin_cnt2 =  Subject.objects.raw('''
+    #     SELECT 1 as id, COUNT(*) as cnt
+    #     FROM main_adminuser; ''')
     
-    dept_cnt =  Subject.objects.raw('''
-        SELECT 1 as id, COUNT(*) as cnt
-        FROM main_student group by dept; ''')
-    cnt1 =0
-    for i in std1:
-        std = i.cnt
-    for i in sub2:
-        sub = i.cnt
-    for i in admin_cnt2:
-        admin_cnt = i.cnt
-    for i in dept_cnt:
-        cnt1=cnt1+1
+    # dept_cnt =  Subject.objects.raw('''
+    #     SELECT 1 as id, COUNT(*) as cnt
+    #     FROM main_student group by dept; ''')
+    # cnt1 =0
+    # for i in std1:
+    #     std = i.cnt
+    # for i in sub2:
+    #     sub = i.cnt
+    # for i in admin_cnt2:
+    #     admin_cnt = i.cnt
+    # for i in dept_cnt:
+    #     cnt1=cnt1+1
 
 
 
 
 
-    context = { 'name':name,
-                 'std': std,
-                 'admin_cnt':admin_cnt,
-                 'dept_cnt': dept_cnt,
-                 'sub':sub,
-                 'cnt1':cnt1
+    # context = { 'name':name,
+    #              'std': std,
+    #              'admin_cnt':admin_cnt,
+    #              'dept_cnt': dept_cnt,
+    #              'sub':sub,
+    #              'cnt1':cnt1
 
 
 
-    }
-    return render(request,'admin_template/index.html',context)
+    # }
+    return render(request,'admin_template/index.html')
 
 @login_required(login_url = 'login')
 @allowed_users(allowed_roles=['student'])
@@ -252,6 +290,14 @@ def studentHome(request):
     
     }
     return render(request,'student_template/index.html',context)
+
+@login_required(login_url = 'login')
+def teacher_home(request):
+    return render(request,'teacher_template/index.html')
+
+
+#--------------------------------------------*****GET*****-------------------------------------------------------------#
+
 @login_required(login_url = 'login')
 def get_att(request, *args, **kwargs):
     regi = request.user.student.registration_number
@@ -437,59 +483,50 @@ def get_all_the_marks(request, *args, **kwargs):
     json_res = getting_json_result(regi)
     return JsonResponse(json_res, safe = False)
 
+def see_registration_status(request, *args, **kwargs):
+    regi = str(request.user.student.registration_number)
+    print(regi)
+    dep = request.user.student.dept
+    register = Result.objects.raw('''
+    SELECT 1 as id, status, subject_id, dept_id as sub FROM main_registertable
+	where student_id = %s ''',[regi])
 
-@login_required(login_url = 'login')
-@allowed_users(allowed_roles=['admin'])
-def add_student(request):
-    user_form = CreateUserForm(request.POST or None) 
-    student_form = StudentForm(request.POST or None, request.FILES or None)
-    context = {'student_form': student_form,'user_form':user_form, 'page_title':'add student'}
-    if request.method == 'POST':
-        if user_form.is_valid and student_form.is_valid():
-            user = user_form.save()
-            student = student_form.save()
-            student.user =user
-            student.save()
-            # username = student_form.cleaned_data.get('username')
-            # email = student_form.cleaned_data.get('email')
-            # password1 = student_form.cleaned_data.get('password1')
-            # password2 = student_form.cleaned_data.get('password2')
-            # name = student_form.cleaned_data.get('name')
-            # name = student_form.cleaned_data.get('phone')
-            # passport = request.FILES['profile_pic']
-            # fs = FileSystemStorage()
-            # filename = fs.save(passport.name, passport)
-            # passport_url = fs.url(filename)
-            group = Group.objects.get(name = 'student')
-            user.groups.add(group)
-            messages.success(request, "Successfully Student Added")
-        else:
-            messages.error(request, "Could Not Add")
-    return render(request, 'student_template/add_student.html',context)
+    for i in register:
+        c_id = i.subject_id
+        subject_name = Subject.objects.get(course_code = c_id).subject_name       
+        i.sub = subject_name
+    attr=[]
+    attr.append("course_code")
+    attr.append("subject_name")
+    attr.append("status")
+    #attr.append("regi")
+    json_res =[]
+    for i in register:
+        obj = {}
+        obj[attr[0]] = i.subject_id
+        obj[attr[1]] = i.sub
+        obj[attr[2]]= i.status
+        #obj[attr[3]]= regi
+        json_res.append(obj)
+    return JsonResponse(json_res, safe= False)
+    
 
 
 
-@login_required(login_url = 'login')
-@allowed_users(allowed_roles=['admin'])
-def add_subject(request):
-    form = AddSubjectForm(request.POST or None)
-    context = {'form': form,'page_title':'add subject'}
-    if request.method == 'POST':
-        if form.is_valid:
-            
-            c_id = form.cleaned_data.get('course_code') 
-            sub = Subject.objects.filter(course_id = c_id).first()
-            if sub == None:
-                form.save()
-                messages.success(request, "Subject Successfully Added")
-            else:
-                messages.error(request, "Could'nt add subjects.. Subject is Alraeady registered")
-        else:
-            messages.error(request, "Could'nt add subjects..Probable reasons:<br> 1. Stubject Code and Type not properly entered ")
-    return render(request, 'admin_template/add_subject.html',context)
 
 
 
+
+
+
+
+
+
+
+
+
+
+#------------------------------------------------------***VIEW***-----------------------------------------------------------
 @login_required(login_url = 'login')
 def full_attendance(request):
     return render(request,'student_template/full_attendance.html')
@@ -503,87 +540,38 @@ def full_marksheet(request):
 def full_skillset(request):
     return render(request,'student_template/full_skillset.html')
 
-    
-    
-
 @login_required(login_url = 'login')
-@allowed_users(allowed_roles=['admin'])
-def search_result1(request):
-    
-    if request.method == 'POST':
-        registration_number = request.POST.get('registration_number')
-        return redirect(reverse('search_result', kwargs={"regi": registration_number}))
-       
-    return render(request,'admin_template/search_result1.html')
-
-@login_required(login_url = 'login')
-@allowed_users(allowed_roles=['admin'])
-def search_result(request, regi):
+def subject_ranksheet(request):
+    regi = request.user.student.registration_number
+        
     data = Result.objects.raw('''
-        SELECT 1 as id, course_code FROM main_result
-	    where student_id = %s''',[regi])
+    SELECT 1 as id, course_code FROM main_result
+	where student_id = %s''',[regi])
 
     context={'course':data, 'regi': regi} 
+
     if request.method == 'POST':
-        registration_number = request.POST.get('registration_number')
         course_id = request.POST.get('course_code')
-        obj = Result.objects.get(student_id = registration_number ,course_code = course_id)
-        id = obj.id
-        return redirect(reverse('update_result', kwargs={"result_id": id}))
-       
-    return render(request,'admin_template/search_result.html',context)
+        marksObj = Result.objects.raw('''
+        SELECT 1 as id,main_student.name, main_student.registration_number as regi, marks FROM
+        public.main_student JOIN public.main_result ON
+        main_student.registration_number = main_result.student_id
+        JOIN public.main_subject ON main_result.course_code = main_subject.course_code
+	    where main_subject.course_code = %s order by marks DESC;''',[course_id])
+        cnt=1
+        your_rank = 0
+        regi1 = request.user.student.registration_number
+        for i in marksObj:
+            if i.regi == regi1:
+                your_rank = cnt  
+            i.id =cnt
+            cnt = cnt+1
+        subject_name = Subject.objects.get(course_code = course_id).subject_name
+        context={'data':marksObj,'course_id':course_id,'subject_name':subject_name, 'rank':your_rank} 
+        return render(request, 'student_template/rank_result2.html',context)
 
 
-@login_required(login_url = 'login')
-@allowed_users(allowed_roles=['admin'])
-def search_student_registered(request):
-    
-    if request.method == 'POST':
-        regi = request.POST.get('registration_number')
-        course_id = request.POST.get('course_code')
-        res = Student.objects.filter(registration_number = regi).first()
-        sub = Subject.objects.filter(course_code = course_id).first()
-        if res == None:
-            messages.info(request, "The student is not registered..Register the student from here first")
-            return redirect(reverse('add_student'))
-        if sub == None:
-            return HttpResponse("The Subject Is not Registered.. Register The Subject First")
-        return redirect(reverse('add_result', kwargs= {"regi": regi, "course_id": course_id}))
-    return render(request,'admin_template/search_student_registered.html')
-        
-    
-       
-
-@login_required(login_url = 'login')
-@allowed_users(allowed_roles=['admin'])
-def update_result(request, result_id):
-    result = get_object_or_404(Result, id =result_id)
-    form = UpdateForm(request.POST or None, instance = result)
-    regi = result.student_id
-    context = {'form':form, 'regi': regi}
-    if form.is_valid():
-        form.save()
-    
-    return render (request, 'admin_template/update_result.html',context)
-
-
-@login_required(login_url = 'login')
-@allowed_users(allowed_roles=['admin'])
-def add_result(request, regi, course_id):
-    stu =  get_object_or_404(Student, registration_number = regi)
-    res = Result.objects.filter(student_id = regi, course_code = course_id).first()
-    if res != None:
-        obj = Result.objects.get(student_id = regi ,course_code = course_id)
-        id = obj.id
-        messages.info(request, "Result Already Exist, You Can Update That Result Here")
-        return redirect(reverse('update_result', kwargs= {"result_id": id}))
-
-    form = AddResultForm(request.POST or None, initial ={'student': stu, 'course_code': course_id })
-    context = {'form':form, 'regi': regi, 'course_id': course_id}
-    if form.is_valid():
-        form.save()
-    return render(request, 'admin_template/add_result.html',context)
-
+    return render(request, 'student_template/rank_result.html',context)
 
 from django.http import HttpResponse
 from django.views.generic import View
@@ -592,7 +580,6 @@ from main.utils import html_to_pdf
 from django.template.loader import render_to_string
 from django.core.files import File
 import os
-#Creating a class based view
 class GeneratePdf(View):
      def get(self, request, *args, **kwargs):
         regi = request.user.student.registration_number
@@ -646,8 +633,156 @@ class GeneratePdf(View):
 
 
 
+
+
+##-----------------------------------------SEARCH------------------------------------####
+
+
+@login_required(login_url = 'login')
+@allowed_users(allowed_roles=['teacher'])
+def search_result1(request):
+    
+    if request.method == 'POST':
+        registration_number = request.POST.get('registration_number')
+        return redirect(reverse('search_result', kwargs={"regi": registration_number}))
+       
+    return render(request,'admin_template/search_result1.html')
+
+@login_required(login_url = 'login')
+@allowed_users(allowed_roles=['teacher'])
+def search_result(request, regi):
+    data = Result.objects.raw('''
+        SELECT 1 as id, course_code FROM main_result
+	    where student_id = %s''',[regi])
+
+    context={'course':data, 'regi': regi} 
+    if request.method == 'POST':
+        registration_number = request.POST.get('registration_number')
+        course_id = request.POST.get('course_code')
+        obj = Result.objects.get(student_id = registration_number ,course_code = course_id)
+        id = obj.id
+        return redirect(reverse('update_result', kwargs={"result_id": id}))
+       
+    return render(request,'admin_template/search_result.html',context)
+
+
+@login_required(login_url = 'login')
+@allowed_users(allowed_roles=['teacher'])
+def search_student_registered(request):
+    
+    if request.method == 'POST':
+        regi = request.POST.get('registration_number')
+        course_id = request.POST.get('course_code')
+        res = Student.objects.filter(registration_number = regi).first()
+        sub = Subject.objects.filter(course_code = course_id).first()
+        if res == None:
+            messages.info(request, "The student is not registered..Register the student from here first")
+            return redirect(reverse('add_student'))
+        if sub == None:
+            return HttpResponse("The Subject Is not Registered.. Register The Subject First")
+        return redirect(reverse('add_result', kwargs= {"regi": regi, "course_id": course_id}))
+    return render(request,'admin_template/search_student_registered.html')
+        
+###-----------------------------------SEARCH END------------------------------------------------------------------------#
+
 @login_required(login_url = 'login')
 @allowed_users(allowed_roles=['admin'])
+def update_result(request, result_id):
+    result = get_object_or_404(Result, id =result_id)
+    form = UpdateForm(request.POST or None, instance = result)
+    regi = result.student_id
+    context = {'form':form, 'regi': regi}
+    if form.is_valid():
+        form.save()
+    
+    return render (request, 'admin_template/update_result.html',context)
+
+
+
+
+
+
+
+
+
+
+
+
+
+#----------------------------------------------** ADD ** -------------------------------------------------------------------------------------------------------
+
+
+@login_required(login_url = 'login')
+@allowed_users(allowed_roles=['admin'])
+def add_student(request):
+    user_form = CreateUserForm(request.POST or None) 
+    student_form = StudentForm(request.POST or None, request.FILES or None)
+    context = {'student_form': student_form,'user_form':user_form, 'page_title':'add student'}
+    if request.method == 'POST':
+        if user_form.is_valid and student_form.is_valid():
+            user = user_form.save()
+            student = student_form.save()
+            student.user =user
+            student.save()
+            # username = student_form.cleaned_data.get('username')
+            # email = student_form.cleaned_data.get('email')
+            # password1 = student_form.cleaned_data.get('password1')
+            # password2 = student_form.cleaned_data.get('password2')
+            # name = student_form.cleaned_data.get('name')
+            # name = student_form.cleaned_data.get('phone')
+            # passport = request.FILES['profile_pic']
+            # fs = FileSystemStorage()
+            # filename = fs.save(passport.name, passport)
+            # passport_url = fs.url(filename)
+            group = Group.objects.get(name = 'student')
+            user.groups.add(group)
+            messages.success(request, "Successfully Student Added")
+        else:
+            messages.error(request, "Could Not Add")
+    return render(request, 'student_template/add_student.html',context)
+
+
+
+@login_required(login_url = 'login')
+@allowed_users(allowed_roles=['teacher'])
+def add_result(request, regi, course_id):
+    stu =  get_object_or_404(Student, registration_number = regi)
+    res = Result.objects.filter(student_id = regi, course_code = course_id).first()
+    if res != None:
+        obj = Result.objects.get(student_id = regi ,course_code = course_id)
+        id = obj.id
+        messages.info(request, "Result Already Exist, You Can Update That Result Here")
+        return redirect(reverse('update_result', kwargs= {"result_id": id}))
+
+    form = AddResultForm(request.POST or None, initial ={'student': stu, 'course_code': course_id })
+    context = {'form':form, 'regi': regi, 'course_id': course_id}
+    if form.is_valid():
+        form.save()
+    return render(request, 'admin_template/add_result.html',context)
+
+@login_required(login_url = 'login')
+@allowed_users(allowed_roles=['admin'])
+def add_subject(request):
+    form = AddSubjectForm(request.POST or None)
+    context = {'form': form,'page_title':'add subject'}
+    if request.method == 'POST':
+        if form.is_valid:
+            
+            c_id = form.cleaned_data.get('course_code') 
+            sub = Subject.objects.filter(course_id = c_id).first()
+            if sub == None:
+                form.save()
+                messages.success(request, "Subject Successfully Added")
+            else:
+                messages.error(request, "Could'nt add subjects.. Subject is Alraeady registered")
+        else:
+            messages.error(request, "Could'nt add subjects..Probable reasons:<br> 1. Stubject Code and Type not properly entered ")
+    return render(request, 'admin_template/add_subject.html',context)
+
+
+
+@login_required(login_url = 'login')
+@allowed_users(allowed_roles=['teacher'])
 def add_j(request):
     data = Result.objects.raw('''
     SELECT 1 as id, course_code FROM main_subject
@@ -713,47 +848,165 @@ def add_j(request):
     return render(request,'admin_template/add_json.html',context)
 
 
-
-
-
-
-
-
+@login_required(login_url = 'login')
+@allowed_users(allowed_roles=['admin'])
 def add_admin(request):
     return redirect('register')
 
 @login_required(login_url = 'login')
-def subject_ranksheet(request):
-    regi = request.user.student.registration_number
-        
-    data = Result.objects.raw('''
-    SELECT 1 as id, course_code FROM main_result
-	where student_id = %s''',[regi])
-
-    context={'course':data, 'regi': regi} 
-
+@allowed_users(allowed_roles=['admin'])
+def addDept(request):
+    form = DepartmentForm(request.POST or None)
+    context = {'form': form, 'page_title':'add department'}
     if request.method == 'POST':
-        course_id = request.POST.get('course_code')
-        marksObj = Result.objects.raw('''
-        SELECT 1 as id,main_student.name, main_student.registration_number as regi, marks FROM
-        public.main_student JOIN public.main_result ON
-        main_student.registration_number = main_result.student_id
-        JOIN public.main_subject ON main_result.course_code = main_subject.course_code
-	    where main_subject.course_code = %s order by marks DESC;''',[course_id])
-        cnt=1
-        your_rank = 0
-        regi1 = request.user.student.registration_number
-        for i in marksObj:
-            if i.regi == regi1:
-                your_rank = cnt  
-            i.id =cnt
-            cnt = cnt+1
-        subject_name = Subject.objects.get(course_code = course_id).subject_name
-        context={'data':marksObj,'course_id':course_id,'subject_name':subject_name, 'rank':your_rank} 
-        return render(request, 'student_template/rank_result2.html',context)
+        if form.is_valid:
+            form.save()
+            messages.success(request,"Successfully Dept. Added")
 
 
-    return render(request, 'student_template/rank_result.html',context)
+    return render(request, 'registration_template/add_dept.html',context)
+@login_required(login_url = 'login')
+@allowed_users(allowed_roles=['admin'])
+def assign_teacher_dept_search(request):
+    data = Result.objects.raw('''
+        SELECT dept_id as id FROM main_dept''')
+
+    context={'dept':data} 
+    if request.method == 'POST':
+        dept_id = request.POST.get('dept_id')
+        return redirect(reverse('assign_teacher', kwargs={"dept_id": dept_id}))
+       
+    return render(request,'admin_template/assign_teacher_dept_search.html',context)
+
+def assign_teacher(request, dept_id):
+    data = Result.objects.raw(''' SELECT name as n, teacher_id as id FROM main_teacher where dept_id = %s''', [dept_id])
+    student_dept = Result.objects.raw('''SELECT dept_id as id FROM main_dept''')
+    course = Result.objects.raw('''SELECT course_code as id, subject_name as name FROM main_subject where dept_id = %s''', [dept_id])
+    context = {'teacher':data, 'student_dept':student_dept, 'course': course, 'teacher_dept':dept_id}
+
+    if request.method == "POST":
+
+        stu_dept = request.POST.get('student_dept')
+        cour_code = request.POST.get('course')
+        t_id   = request.POST.get('teacher')
+        t_dept = dept_id
+
+
+        assingn = AssignedTeacher2(
+            student_dept =  stu_dept,
+            course_code= cour_code,
+            dept_id = t_dept,
+            
+            teacher_id= t_id,
+
+
+
+        )
+        assingn.save()
+        messages.success(request,"Teacher Id : %s Is Assigned For %s Course In %s Department" %(t_id,cour_code,t_dept))
+
+
+
+
+
+
+    return render(request,'admin_template/assign_teacher_dept.html',context)
+
+    
+
+
+
+
+#--------------------------------------------------------###### ADD END #######---------------------------------------------------------
+
+
+
+def student_sub_register(request):
+    dept_name = request.user.student.dept
+    dpt_name =str(dept_name)
+
+    data = AssignedTeacher2.objects.raw('''
+        SELECT 1 as id, course_code as cc, teacher_id as tid ,dept_id as did, dept_id as tname FROM main_assignedteacher2
+	    where student_dept= %s''', [dpt_name])
+    
+
+    for i in data:
+        teacher_name = Teacher.objects.get(teacher_id = i.tid).name
+        i.tname = teacher_name
+    context = {'data':data}
+
+    if request.method == "POST":
+        course_cc = request.POST.get('course_regi')
+        regi = str(request.user.student.registration_number)
+
+        check = RegisterTable.objects.filter(student_id = regi, subject_id = course_cc).first()
+        if check == None:
+            print("kk")
+            
+            ss = RegisterTable(
+                 
+                dept_id = dpt_name,
+                student_id = regi,
+                subject_id = course_cc,
+
+
+
+            )
+            ss.save()
+            messages.success(request, "It has gone for approval to Teacher")         
+    
+    return render(request,'teacher_template/student_sub_register.html',context)
+
+
+def teacher_approve_search(request):
+    teach_id = request.user.teacher.teacher_id
+    data = AssignedTeacher2.objects.filter(teacher_id = teach_id)
+
+    context= {'data':data}
+    if request.method == "POST":
+        course_code_dept = request.POST.get('course_code_dept')
+        xx = course_code_dept.split(',')
+        return redirect(reverse('teacher_approval', kwargs= {"course_code": xx[0], "student_dept": xx[1]}))
+
+
+
+
+
+
+    return render(request, 'teacher_template/teacher_approve_search.html',context)
+
+
+def teacher_approval(request, course_code, student_dept):
+    data2 = Result.objects.raw('''
+        SELECT 1 as id, name, student_id, phone, status, profile_pic  FROM
+        public.main_student JOIN public.main_registertable ON
+        main_student.registration_number = main_registertable.student_id
+	    where main_registertable.dept_id = %s and main_registertable.subject_id = %s''',[student_dept,course_code]) 
+    data = RegisterTable.objects.filter(subject_id = course_code, dept_id = student_dept)
+    stu = []
+    for i in data:
+        stu.append( Student.objects.filter(registration_number = i.student_id).first())
+
+    
+        
+    context ={'data':data2,'stu':stu, 'cc': course_code, 'dpt': student_dept}
+    if request.method == "POST":
+        stat = request.POST.get('optionsRadios')
+        xx = stat.split(',')
+        print(xx)
+
+        RegisterTable.objects.filter(subject_id = course_code, student_id = xx[1]).update(status = xx[0])
+
+
+
+
+    return render(request, 'teacher_template/teacher_approval.html',context)
+
+
+
+
+    
+
 
 
     

@@ -30,6 +30,15 @@ urlpatterns = [
     path("get_all_the_marks", views.get_all_the_marks, name = 'get_all_the_marks'),
     path('pdf/', views.GeneratePdf.as_view(),name ="generate_pdf"),
     path('ranksheet/', views.subject_ranksheet,name ="ranksheet"),
+    path('add_teacher/', views.registerPageTeacher,name ="add_teacher"),
+    path('add_dept/', views.addDept,name ="add_dept"),
+    path('teacher_home/', views.teacher_home,name ="teacher_home"),
+    path('assign_teacher_dept_search/', views.assign_teacher_dept_search,name ="assign_teacher_dept_search"),
+    path('assign_teacher/<dept_id>', views.assign_teacher,name ="assign_teacher"),
+    path('student_sub_register/', views.student_sub_register,name ="student_sub_register"),
+    path('see_registration_status/', views.see_registration_status,name ="see_registration_status"),
+    path('teacher_approve_search/', views.teacher_approve_search,name ="teacher_approve_search"),
+    path('teacher_approval/<course_code>/<student_dept>', views.teacher_approval,name ="teacher_approval"),
 
 
 

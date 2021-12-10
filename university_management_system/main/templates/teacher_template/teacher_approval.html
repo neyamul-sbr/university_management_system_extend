@@ -1,0 +1,100 @@
+{%extends 'main/main_home_teachers.html'%} {%block content%}
+
+<div class="main-panel">
+    <div class="content-wrapper">
+        {% include 'main/message.html' %}
+        <div class="row">
+            <div class="col-md-12 grid-margin stretch-card">
+            <div class="card">
+                    
+                    
+                <div class="row justify-content-between align-items-center">
+                <div class="col-sm" align ="center">
+            <h3 class = "text-primary">Student List Card For  <b class = "text-danger">{{dpt}}</b>  Department's  <b class = "text-danger">{{cc}}</b>  Course For Your Approval</h3>
+            </div>
+            </div>
+            </div>
+            </div>
+
+        </div>
+        <div class="row">
+            
+            {%for c  in data%} 
+            <div class="col-md-12 grid-margin stretch-card">
+                
+                
+                <div class="card">
+                    
+                    
+                    <div class="row justify-content-between align-items-center">
+                    <div class="col-sm" align ="center">
+                        <!-- <blockquote class="blockquote">
+                            <p class="mb-0">Student Registration: {{c.student_id}}</p>
+                          </blockquote> -->
+                          Student Name :     {{c.name}}             <br>
+                          Student Registration: {{c.student_id}}<br>
+                          Student Phone:   {{c.phone}}   <br>
+                          
+                    
+                     
+                    </div>
+                     <div class="col-sm">
+                        <img src="/media/{{c.profile_pic}}" width="120"/>
+                     </div>
+                    
+                     <div class="col-sm">
+                    <form form action="" method="POST">
+                        {% csrf_token %}
+                        <div class="row">
+                            <div class="col-md-6">
+                               <h class = "font-weight-bold text-primary">Approval Status</h>
+                                <div class="form-group">
+                                    <div class="form-check">
+                                        <label class="form-check-label">
+                                            <input type="radio" class="form-check-input" name="optionsRadios" id="optionsRadios2"
+                                                value="Approved,{{c.student_id}}" {% if c.status == 'Approved' %} checked {% endif %} >
+                                            Approve
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <label class="form-check-label">
+                                            <input type="radio" class="form-check-input" name="optionsRadios" id="optionsRadios3"
+                                                value="Pending,{{c.student_id}}" {% if c.status == 'Pending' %} checked {% endif %} >
+                                            Pending
+                                        </label>
+                                    </div>
+
+
+                                    <div class="form-check">
+                                        <label class="form-check-label">
+                                            <input type="radio" class="form-check-input" name="optionsRadios" id="optionsRadios3"
+                                                value="Rejected,{{c.student_id}}" {% if c.status == 'Rejected' %} checked {% endif %}>
+                                            Reject
+                                        </label>
+                                    </div>
+                                   
+                                   
+
+                                </div>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary mr-2">Select</button>
+                    </form>
+                </div>
+                    </div>                    
+                    
+                
+               
+                </div>
+               
+            </div>
+            
+            {% endfor %}
+           
+        </div>
+    </div>
+</div>
+
+
+
+{%endblock%}

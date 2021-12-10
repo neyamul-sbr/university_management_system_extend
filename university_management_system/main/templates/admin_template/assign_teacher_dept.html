@@ -1,0 +1,59 @@
+{%extends 'main/main_home.html'%} {%block content%}
+
+<div class="main-panel">
+  <div class="content-wrapper">
+    {% include 'main/message.html' %}
+    <div class="row">
+      <div class="col-md-12 grid-margin stretch-card">
+        <div class="card">
+          <div class="card-body">
+            <h4 class="card-title">Select the Department</h4>
+            <p class="card-description">Teachers Department</p>
+            <form action="" method="POST" class="forms-sample">
+              {% csrf_token %}
+              <div class="form-group">
+                <input type="text" name="teachers_dept"  value ="{{teacher_dept}}" readonly="readonly"class="form-control form-control-lg" id="exampleInputEmail1" placeholder="Teacher's Dept">
+              </div>
+
+              <div class="form-group">
+                <!-- <input type="text" name="course_code" class="form-control form-control-lg" id="exampleInputPassword1" placeholder="Course Code"> -->
+                <label for="cars">Choose Student's Dept</label>
+<select name="student_dept"  class="form-control form-control-lg" id="cars">
+  {%for c in student_dept%}
+  <option value="{{c.id}}" {% if c in selected_values %} selected {% endif %}>{{c.id}}</option>
+  {% endfor %}
+</select>
+              </div>
+              <div class="form-group">
+                <!-- <input type="text" name="course_code" class="form-control form-control-lg" id="exampleInputPassword1" placeholder="Course Code"> -->
+                <label for="cars">Select Course From Teacher's Department</label>
+<select name="course"  class="form-control form-control-lg" id="cars">
+  {%for c in course%}
+  <option value="{{c.id}}"+ {% if c in selected_values %} selected {% endif %}>{{c.id}} ({{c.name}})</option>
+  {% endfor %}
+</select>
+              </div>
+            
+
+              <div class="form-group">
+                <!-- <input type="text" name="course_code" class="form-control form-control-lg" id="exampleInputPassword1" placeholder="Course Code"> -->
+                <label for="cars">Select Teacher From That Department</label>
+<select name="teacher"  class="form-control form-control-lg" id="cars">
+  {%for c in teacher%}
+  <option value="{{c.id}}"+ {% if c in selected_values %} selected {% endif %}>{{c.n}} ({{c.id}})</option>
+  {% endfor %}
+</select>
+              </div>
+
+
+              <button type="submit" class="btn btn-primary mr-2">Select</button>
+              <a href="{% url 'home' %}" class="btn btn-light" role="button">Cancel</a>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{%endblock%}
