@@ -151,6 +151,13 @@ def logoutPage(request):
 @login_required(login_url = 'login')
 @allowed_users_home(allowed_roles=['admin', 'teacher'])
 def home(request):
+    name = str(request.user.adminuser.name)
+
+    context = {'name':name,
+    
+    
+    
+    }
     # name = request.user.adminuser.name
     # std1  = Subject.objects.raw('''
     #     SELECT 1 as id, COUNT(*) as cnt
@@ -189,7 +196,7 @@ def home(request):
 
 
     # }
-    return render(request,'admin_template/index.html')
+    return render(request,'admin_template/index.html',context)
 
 @login_required(login_url = 'login')
 @allowed_users(allowed_roles=['student'])
@@ -1176,11 +1183,162 @@ def teacher_approval(request, course_code, student_dept):
             Result.objects.filter(student_id = xx[1], course_code = course_code, dept = student_dept).delete()
 
         RegisterTable.objects.filter(subject_id = course_code, student_id = xx[1]).update(status = xx[0])
+        
+        tid = str(request.user.teacher.teacher_id)
+
+        if xx[0] == 'Approved':
+            rr = Rating.objects.filter(student_id = xx[1], subject_id = course_code, teacher_id = tid).first()
+            if rr == None:
+                rate = Rating(
+                    student_id = xx[1],
+                    subject_id = course_code,
+                    teacher_id = tid,
+                )
+                rate.save()
+
 
 
 
 
     return render(request, 'teacher_template/teacher_approval.html',context)
+
+
+def student_rating(request):
+    regi =str(request.user.student.registration_number)
+
+    data2 = Result.objects.raw('''
+        SELECT 1 as id, name, main_assignedteacher2.teacher_id as tid ,course_code cc, phone, profile_pic,rating  FROM
+        public.main_registertable JOIN public.main_assignedteacher2 ON
+        main_registertable.dept_id = main_assignedteacher2.student_dept
+        AND main_registertable.subject_id = main_assignedteacher2.course_code
+        JOIN main_teacher ON main_teacher.teacher_id = main_assignedteacher2.teacher_id
+        JOIN main_rating ON main_registertable.student_id = main_rating.student_id 
+        AND main_registertable.subject_id = main_rating.subject_id
+
+	    where main_registertable.student_id = %s and main_registertable.status ='Approved'  ''',[regi]) 
+
+
+    if request.method == "POST":
+        stat = request.POST.get('optionsRadios')
+        xx = stat.split(',')
+        print(xx)
+        Rating.objects.filter(subject_id = xx[2], student_id = regi,teacher_id = xx[1]).update(rating = int(xx[0]))
+
+
+
+    context = { 'regi':regi,
+                'data':data2,
+
+
+    }
+
+
+
+
+    return render(request, 'student_template/student_rating.html',context)
+
+
+def get_ratings_teacher(request):
+    t_id = str(request.user.teacher.teacher_id)
+    attendance = Result.objects.raw('''
+    SELECT 1 as id, subject_id as sn , AVG(rating) as avg FROM
+    public.main_rating
+	where teacher_id=%s
+	group by subject_id;''',[t_id])
+    data =[]
+    labels =[]
+
+    for i in attendance:
+        labels.append(i.sn)
+        data.append(round(i.avg,2))
+
+    return JsonResponse(data={
+        'labels': labels,
+        'data':data,
+    })
+
+def get_ratings_admin(request):
+    t_rate = Result.objects.raw('''
+    SELECT 1 as id, main_rating.teacher_id as tid ,main_rating.teacher_id as nem , AVG(rating) as avg FROM
+    public.main_rating JOIN main_teacher ON main_rating.teacher_id = main_teacher.teacher_id
+	group by main_rating.teacher_id ORDER BY AVG(rating) DESC;''')
+
+
+
+    data =[]
+    labels =[]
+
+    for i in t_rate:
+        nem = Teacher.objects.get(teacher_id = i.tid).name
+        dep = str(Teacher.objects.get(teacher_id = i.tid).dept_id)
+        i.nem = nem
+        labels.append(i.nem + " ["+ i.tid+" ("+ dep + ") "+"]")
+        data.append(round(i.avg,2))
+    
+    return JsonResponse(data={
+        'labels': labels,
+        'data':data,
+    })
+
+def dept_performance(request):
+    dep_per = Result.objects.raw('''
+    SELECT 1 as id, AVG(total) as avg, dept FROM
+    public.main_result 
+	group by dept ORDER BY AVG(total) DESC;''')
+    data =[]
+    labels =[]
+    for i in dep_per:
+        data.append((i.avg/100)*10)
+        labels.append(i.dept)
+    return JsonResponse(data={
+        'labels': labels,
+        'data':data,
+    })
+
+
+@login_required(login_url = 'login')
+def subject_ranksheet_teacher(request):
+    t_id = request.user.teacher.teacher_id
+        
+    data = AssignedTeacher2.objects.filter(teacher_id = t_id)
+
+    context={'course':data, 't_id': t_id} 
+
+    if request.method == 'POST':
+        course = request.POST.get('course_code')
+        xx = course.split(",")
+        course_id = xx[0]
+        dept_id = xx[1]
+        marksObj = Result.objects.raw('''
+        SELECT 1 as id,main_student.name, main_student.registration_number as regi, total FROM
+        public.main_student JOIN public.main_result ON
+        main_student.registration_number = main_result.student_id
+        and  main_student.dept_id = main_result.dept
+	    where main_subject.course_code = %s and dept = %s order by regi;''',[course_id])
+        cnt=1
+        your_rank = 0
+        regi1 = request.user.student.registration_number
+        for i in marksObj:
+            if i.regi == regi1:
+                your_rank = cnt  
+            i.id =cnt
+            cnt = cnt+1
+        subject_name = Subject.objects.get(course_code = course_id).subject_name
+        context={'data':marksObj,'course_id':course_id,'subject_name':subject_name, 'rank':your_rank} 
+        return render(request, 'student_template/course_result2.html',context)
+
+
+    return render(request, 'teacher_template/course_result.html',context)
+
+
+
+
+
+        
+
+
+ 
+
 
 
 

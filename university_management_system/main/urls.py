@@ -42,6 +42,12 @@ urlpatterns = [
     path('course_wise_participation/', views.courseWiseParticipation,name ="course_wise_participation"),
     path('course_wise_performance/', views.course_wise_performance,name ="course_wise_performance"),
     path('session_wise_courses/', views.session_wise_courses,name ="session_wise_courses"),
+    path('student_rating/', views.student_rating,name ="student_rating"),
+    path('get_ratings_teacher/', views.get_ratings_teacher,name ="get_ratings_teacher"),
+    path('get_ratings_admin/', views.get_ratings_admin,name ="get_ratings_admin"),
+    path('dept_performance/', views.dept_performance,name ="dept_performance"),
+    path('subject_ranksheet_teacher/', views.subject_ranksheet_teacher,name ="subject_ranksheet_teacher"),
+    
 
 
 

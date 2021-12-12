@@ -1,0 +1,18 @@
+[
+    {
+        "course_code": "CSE245",
+        "dept": "EEE",
+        "student_id": "2018221057",
+        "theory_marks": 90,
+        "term_test": 25,
+        "attendence": 8
+    },
+    {
+        "course_code": "CSE245",
+        "dept": "EEE",
+        "student_id": "2017221048",
+        "theory_marks": 80,
+        "term_test": 10,
+        "attendence": 9
+    }
+]

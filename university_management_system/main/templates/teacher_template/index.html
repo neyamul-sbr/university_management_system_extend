@@ -144,6 +144,31 @@
 
 
 
+<div class="row">
+    <div class="col-md-6 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <p class="card-title">Ratings of your teaching for the courses you have conducted  </p>
+                </div>
+                <p class="font-weight-500">
+                    Here is the Coursewise ratings of your teaching given by the student's that are registered to your course
+                </p>
+                <div id="sales-legend" class="chartjs-legend mt-4 mb-2"></div>
+                <canvas id="barChartH1" data-url="{% url 'get_ratings_teacher' %}"></canvas>
+            </div>
+        </div>
+    </div>
+
+
+
+
+</div>
+
+
+
+
+
 
 <div class="col-md-12 grid-margin stretch-card">
     <div class="card">

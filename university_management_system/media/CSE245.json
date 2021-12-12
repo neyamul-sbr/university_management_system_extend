@@ -1,0 +1,14 @@
+[
+    {
+        "course_code": "CSE245",
+        "student_id": "2018221057",
+        "attendence": 8,
+        "marks": 76
+    },
+    {
+        "course_code": "CSE245",
+        "student_id": "2018221048",
+        "attendence": 9,
+        "marks": 82
+    }
+]

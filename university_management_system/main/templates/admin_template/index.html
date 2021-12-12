@@ -7,7 +7,7 @@
         <div class="row">
           <div class="col-12 col-xl-8 mb-4 mb-xl-0">
             <!-- here name-->
-            <h3 class="font-weight-bold">Welcome, {{name}}</h3>
+            <h3 class="font-weight-bold">Welcome, {{name}}(admin)</h3>
 
           </div>
           <div class="col-12 col-xl-4">
@@ -64,6 +64,46 @@
         </div>
       </div>
     </div>
+
+
+    <div class="row">
+      <div class="col-md-6 grid-margin stretch-card">
+          <div class="card">
+              <div class="card-body">
+                  <div class="d-flex justify-content-between">
+                      <p class="card-title">Teaching Ratings Rakings of University Teachers</p>
+                  </div>
+                  <p class="font-weight-500">
+                     Here is the teaching ratings given by the Students that have taken the respective Teacher's courses
+                  </p>
+                  <div id="sales-legend" class="chartjs-legend mt-4 mb-2"></div>
+                  <canvas id="barChartH2" data-url="{% url 'get_ratings_admin' %}"></canvas>
+              </div>
+          </div>
+      </div>
+      <div class="col-md-6 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <p class="card-title">Department Performance Ranking</p>
+                </div>
+                <p class="font-weight-500">
+                  Performance Rankings Of Departments of the University
+                </p>
+                <div id="sales-legend" class="chartjs-legend mt-4 mb-2"></div>
+                <canvas id="barChartH3" data-url="{% url 'dept_performance' %}"></canvas>
+            </div>
+        </div>
+    </div>
+
+
+    </div>
+  
+
+  
+  
+  </div>
+  
 
     <!-- content-wrapper ends -->
     <!-- partial:partials/_footer.html -->

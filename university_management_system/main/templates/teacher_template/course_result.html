@@ -1,0 +1,29 @@
+{%extends 'main/main_home_teachers.html'%} {%block content%}
+
+    <div class="row">
+      <div class="col-md-12 grid-margin stretch-card">
+        <div class="card">
+          <div class="card-body">
+            <h4 class="card-title">Student Ranklist Of Your Registered Subject</h4>
+            <form action="" method="POST" class="forms-sample">
+              {% csrf_token %}
+              <div class="form-group">
+                <label for="cars">Choose a course that you have registered</label>
+
+                <select name="course_code"  class="form-control form-control-lg" id="cars">
+                  {%for c in course%}
+                  <option value="{{c.course_code}},{{c.student_dept}}" {% if c in selected_values %} selected {% endif %}>{{c.course_code}} for {{c.student_dept}} Department</option>
+                  {% endfor %}
+                </select>
+              </div>
+              <button type="submit" class="btn btn-primary mr-2">Search</button>
+              <a href="{% url 'home' %}" class="btn btn-light" role="button">Cancel</a>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{%endblock%}

@@ -1,0 +1,124 @@
+{%extends 'main/main_home_student.html'%} {%block content%}
+
+<div class="main-panel">
+    <div class="content-wrapper">
+      {% include 'main/message.html' %}
+
+
+        <div class="row">
+            <div class="col-md-12 grid-margin stretch-card">
+            <div class="card">
+                    
+                    
+                <div class="row justify-content-between align-items-center">
+                <div class="col-sm" align ="center">
+            <h3 class = "text-primary">Rate Your Course Teachers, Whose Course You Have Taken</h3>
+            </div>
+            </div>
+            </div>
+            </div>
+
+        </div>
+        <div class="row">
+            
+            {%for c  in data%} 
+            <div class="col-md-12 grid-margin stretch-card">
+                
+                
+                <div class="card">
+                    
+                    
+                    <div class="row justify-content-between align-items-center">
+                    <div class="col-sm" align ="center">
+                        <!-- <blockquote class="blockquote">
+                            <p class="mb-0">Student Registration: {{c.student_id}}</p>
+                          </blockquote> -->
+                          Course Code : {{c.cc}}<br>
+                          Teacher's Name :     {{c.name}}             <br>
+                          Teacher's ID: {{c.tid}}<br>
+                          Teachers Phone:   {{c.phone}}   <br>
+                          
+                    
+                     
+                    </div>
+                     <div class="col-sm">
+                        <img src="/media/{{c.profile_pic}}" width="120"/>
+                     </div>
+                    
+                     <div class="col-sm">
+                    <form form action="" method="POST">
+                        {% csrf_token %}
+                        <div class="row">
+                            <div class="col-md-6">
+                               <h class = "font-weight-bold text-primary">Ratings</h>
+                                <div class="form-group">
+                                    <div class="form-check">
+                                        <label class="form-check-label">
+                                            <input type="radio" class="form-check-input" name="optionsRadios" id="optionsRadios1"
+                                                value="0,{{c.tid}},{{c.cc}}" {% if c.rating == 0 %} checked {% endif %} >
+                                            0
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <label class="form-check-label">
+                                            <input type="radio" class="form-check-input" name="optionsRadios" id="optionsRadios2"
+                                                value="1,{{c.tid}},{{c.cc}}" {% if c.rating == 1 %} checked {% endif %} >
+                                            1
+                                        </label>
+                                    </div>
+
+
+                                    <div class="form-check">
+                                        <label class="form-check-label">
+                                            <input type="radio" class="form-check-input" name="optionsRadios" id="optionsRadios3"
+                                                value="2,{{c.tid}},{{c.cc}}" {% if c.rating == 2 %} checked {% endif %}>
+                                            2
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <label class="form-check-label">
+                                            <input type="radio" class="form-check-input" name="optionsRadios" id="optionsRadios4"
+                                                value="3,{{c.tid}},{{c.cc}}" {% if c.rating == 3 %} checked {% endif %}>
+                                            3
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <label class="form-check-label">
+                                            <input type="radio" class="form-check-input" name="optionsRadios" id="optionsRadios5"
+                                                value="4,{{c.tid}},{{c.cc}}" {% if c.rating == 4 %} checked {% endif %}>
+                                            4
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <label class="form-check-label">
+                                            <input type="radio" class="form-check-input" name="optionsRadios" id="optionsRadios6"
+                                                value="5,{{c.tid}},{{c.cc}}" {% if c.rating == 5 %} checked {% endif %}>
+                                            5
+                                        </label>
+                                    </div>
+                                   
+                                   
+
+                                </div>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary mr-2">RATE</button>
+                    </form>
+                </div>
+                    </div>                    
+                    
+                
+               
+                </div>
+               
+            </div>
+            
+            {% endfor %}
+           
+        </div>
+    </div>
+</div>
+
+
+
+{%endblock%}

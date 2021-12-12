@@ -105,6 +105,16 @@ class Result(models.Model):
     dept =models.CharField(max_length= 200)
     class Meta:
         unique_together = (("student","course_code"))
+    
+
+class Rating(models.Model):
+    student = models.ForeignKey(Student, on_delete=models.CASCADE)
+    subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
+    teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE)
+    rating  = models.IntegerField(default = '3')
+    class Metha:
+        unique_together = (("student","subject"))
+
 
 
 
