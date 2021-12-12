@@ -9,6 +9,7 @@ admin.site.register(Dept)
 admin.site.register(RegisterTable)
 admin.site.register(Teacher)
 admin.site.register(AssignedTeacher)
+admin.site.register(AssignedTeacher2)
 
 # Register your models here.
 

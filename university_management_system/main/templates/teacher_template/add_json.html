@@ -1,7 +1,6 @@
 {%extends 'main/main_home_teachers.html'%} {%block content%}
 
-<div class="main-panel">
-    <div class="content-wrapper">
+
         <div class="row">
             <div class="col-md-12 grid-margin stretch-card">
                 <div class="card">
@@ -17,7 +16,7 @@
 
                                 <select name="course_code" class="form-control form-control-lg" id="cars">
                                     {%for c in course%}
-                                    <option value="{{c.course_code}}" {% if c in selected_values %} selected {% endif %}>{{c.course_code}}</option>
+                                    <option value="{{c.course_code}},{{c.student_dept}}" {% if c in selected_values %} selected {% endif %}>{{c.course_code}} for <br>({{c.student_dept}})</br> Department</option>
                                     {% endfor %}
                                 </select>
                             </div>

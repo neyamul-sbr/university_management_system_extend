@@ -19,7 +19,7 @@ urlpatterns = [
     path("result/<regi>", views.search_result, name = 'search_result'),
     path("result1/", views.search_result1, name = 'search_result1'),
     path("result/<result_id>/update", views.update_result, name ='update_result'),
-    path("add_result/<regi>/<course_id>", views.add_result, name='add_result'),
+    path("add_result/<dept>/<course_id>", views.add_result, name='add_result'),
     path("search_student_registered/", views.search_student_registered, name = 'search_student_registered'),
     path("get_subtype_networking_marks", views.get_subtype_networking_marks, name = 'get_subtype_networking_marks'),
     path("get_subtype_ai_marks", views.get_subtype_ai_marks, name = 'get_subtype_ai_marks'),
@@ -39,6 +39,9 @@ urlpatterns = [
     path('see_registration_status/', views.see_registration_status,name ="see_registration_status"),
     path('teacher_approve_search/', views.teacher_approve_search,name ="teacher_approve_search"),
     path('teacher_approval/<course_code>/<student_dept>', views.teacher_approval,name ="teacher_approval"),
+    path('course_wise_participation/', views.courseWiseParticipation,name ="course_wise_participation"),
+    path('course_wise_performance/', views.course_wise_performance,name ="course_wise_performance"),
+    path('session_wise_courses/', views.session_wise_courses,name ="session_wise_courses"),
 
 
 

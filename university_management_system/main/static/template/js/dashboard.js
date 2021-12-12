@@ -3,8 +3,8 @@
   function getRandomColor() {
     var letters = '0123456789ABCDEF'.split('');
     var color = '#';
-    for (var i = 0; i < 6; i++ ) {
-        color += letters[Math.floor(Math.random() * 16)];
+    for (var i = 0; i < 6; i++) {
+      color += letters[Math.floor(Math.random() * 16)];
     }
     return color;
   }
@@ -16,7 +16,7 @@
         var SalesChartCanvas = $("#sales-chart").get(0).getContext("2d");
         var barColors = [];
         var barColors = [];
-        for(let i=0; i<120; i++){
+        for (let i = 0; i < 120; i++) {
           barColors.push(getRandomColor());
         }
         var SalesChart = new Chart(SalesChartCanvas, {
@@ -98,12 +98,14 @@
     });
 
   });
- 
+
+
+
 
   $(function () {
     var $pie_chart = $("#pieChart");
     var barColors = [];
-    for(let i=0; i<120; i++){
+    for (let i = 0; i < 120; i++) {
       barColors.push(getRandomColor());
     }
 
@@ -112,7 +114,7 @@
       success: function (data) {
         var pieChartCanvas = $("#pieChart").get(0).getContext("2d");
         var pieChart = new Chart(pieChartCanvas, {
-          type: "doughnut",
+          type: "polarArea",
           data: {
             labels: data.labels,
             datasets: [{
@@ -128,96 +130,185 @@
             }
           }
         });
-      
-    }
+
+      }
+    });
   });
-});
 
-$(function () {
-  var $bar_chart_h = $("#barChartH");
-  var barColors = [];
-  for(let i=0; i<120; i++){
-    barColors.push(getRandomColor());
-  }
+  $(function () {
+    var $bar_chart_h = $("#barChartH");
+    var barColors = [];
+    for (let i = 0; i < 120; i++) {
+      barColors.push(getRandomColor());
+    }
 
-  $.ajax({
-    url: $bar_chart_h.data("url"),
-    success: function (data) {
-      var barChartCanvas = $("#barChartH").get(0).getContext("2d");
-      var barChartH = new Chart(barChartCanvas, {
-        type: "horizontalBar",
-        data: {
-          labels: data.labels,
-          datasets: [{
-            backgroundColor: barColors,
-            data: data.data,
-            hoverOffset: 5
-          }]
-        },
-        options: {
-          cornerRadius: 1,
-          responsive: true,
-          maintainAspectRatio: true,
-          layout: {
-            padding: {
-              left: 0,
-              right: 0,
-              top: 0,
-              bottom: 0,
-            },
+    $.ajax({
+      url: $bar_chart_h.data("url"),
+      success: function (data) {
+        var barChartCanvas = $("#barChartH").get(0).getContext("2d");
+        var barChartH = new Chart(barChartCanvas, {
+          type: "horizontalBar",
+          data: {
+            labels: data.labels,
+            datasets: [{
+              backgroundColor: barColors,
+              data: data.data,
+              hoverOffset: 5
+            }]
           },
-          scales: {
-            xAxes: [
-              {
-                display: true,
-                gridLines: {
+          options: {
+            cornerRadius: 1,
+            responsive: true,
+            maintainAspectRatio: true,
+            layout: {
+              padding: {
+                left: 0,
+                right: 0,
+                top: 0,
+                bottom: 0,
+              },
+            },
+            scales: {
+              xAxes: [
+                {
                   display: true,
-                  drawBorder: false,
-                  color: "#F2F2F2",
-                  // color: '#98BDFF',
-                },
-                ticks: {
-                  display: true,
-                  min: 0,
-                  max: 10,
-                  callback: function (value, index, values) {
-                    return value;
+                  gridLines: {
+                    display: true,
+                    drawBorder: false,
+                    color: "#F2F2F2",
+                    // color: '#98BDFF',
                   },
-                  autoSkip: true,
-                  maxTicksLimit: 100,
-                  fontColor: "#6C7383",
+                  ticks: {
+                    display: true,
+                    min: 0,
+                    max: 10,
+                    callback: function (value, index, values) {
+                      return value;
+                    },
+                    autoSkip: true,
+                    maxTicksLimit: 100,
+                    fontColor: "#6C7383",
+                  },
                 },
+              ],
+              yAxes: [
+                {
+                  stacked: false,
+                  ticks: {
+                    beginAtZero: true,
+                    fontColor: "#6C7383",
+                  },
+                  gridLines: {
+                    color: "rgba(0, 0, 0, 0)",
+                    display: false,
+                  },
+                  barPercentage: 1,
+                },
+              ],
+            },
+            legend: {
+              display: false,
+            },
+            elements: {
+              point: {
+                radius: 0,
               },
-            ],
-            yAxes: [
-              {
-                stacked: false,
-                ticks: {
-                  beginAtZero: true,
-                  fontColor: "#6C7383",
-                },
-                gridLines: {
-                  color: "rgba(0, 0, 0, 0)",
-                  display: false,
-                },
-                barPercentage: 1,
-              },
-            ],
-          },
-          legend: {
-            display: false,
-          },
-          elements: {
-            point: {
-              radius: 0,
             },
           },
-        },
-      });
-    
-  }
-});
-});
+        });
+
+      }
+    });
+  });
+
+
+
+
+  $(function () {
+    var $bar_chart_h = $("#barChart1");
+    var barColors = [];
+    for (let i = 0; i < 120; i++) {
+      barColors.push(getRandomColor());
+    }
+
+    $.ajax({
+      url: $bar_chart_h.data("url"),
+      success: function (data) {
+        var barChartCanvas = $("#barChart1").get(0).getContext("2d");
+        var barChartH = new Chart(barChartCanvas, {
+          type: "bar",
+          data: {
+            labels: data.labels,
+            datasets: [{
+              backgroundColor: barColors,
+              data: data.data,
+              hoverOffset: 5
+            }]
+          },
+          options: {
+            cornerRadius: 1,
+            responsive: true,
+            maintainAspectRatio: true,
+            layout: {
+              padding: {
+                left: 0,
+                right: 0,
+                top: 0,
+                bottom: 0,
+              },
+            },
+            scales: {
+              yAxes: [
+                {
+                  display: true,
+                  gridLines: {
+                    display: true,
+                    drawBorder: false,
+                    color: "#F2F2F2",
+                    // color: '#98BDFF',
+                  },
+                  ticks: {
+                    display: true,
+                    min: 0,
+                    max: 5,
+                    callback: function (value, index, values) {
+                      return value;
+                    },
+                    autoSkip: true,
+                    maxTicksLimit: 6,
+                    fontColor: "#6C7383",
+                  },
+                },
+              ],
+              xAxes: [
+                {
+                  stacked: false,
+                  ticks: {
+                    beginAtZero: true,
+                    fontColor: "#6C7383",
+                  },
+                  gridLines: {
+                    color: "rgba(0, 0, 0, 0)",
+                    display: false,
+                  },
+                  barPercentage: 1,
+                },
+              ],
+            },
+            legend: {
+              display: false,
+            },
+            elements: {
+              point: {
+                radius: 0,
+              },
+            },
+          },
+        });
+
+      }
+    });
+  });
 
 
 })(jQuery);

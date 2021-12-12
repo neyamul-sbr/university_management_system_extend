@@ -1,0 +1,18 @@
+[
+    {
+        "course_code": "CSE999",
+        "dept": "CSE",
+        "student_id": "2017331107",
+        "theory_marks": 95,
+        "term_test": 21,
+        "attendence": 7
+    },
+    {
+        "course_code": "CSE999",
+        "dept": "CSE",
+        "student_id": "2017331001",
+        "theory_marks": 71,
+        "term_test": 23,
+        "attendence": 10
+    }
+]

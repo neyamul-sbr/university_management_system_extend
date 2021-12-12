@@ -103,8 +103,10 @@ def registerPageTeacher(request):
             # passport_url = fs.url(filename)
             group = Group.objects.get(name = 'teacher')
             user.groups.add(group)
-        else:
             messages.success(request, "Successfully Teacher Added")
+        else:
+            messages.success(request, "Teacher Couldn't  Added")
+            
     return render(request, 'registration_template/add_teacher.html',context)
 
 @login_required(login_url = 'login')
@@ -217,33 +219,33 @@ def studentHome(request):
     
     else:
         credits = Subject.objects.raw('''
-        SELECT 1 as id, SUM(credit)
+        SELECT 1 as course_code, SUM(credit)
         FROM public.main_student JOIN public.main_result ON
         main_student.registration_number = main_result.student_id
         JOIN public.main_subject ON main_result.course_code = main_subject.course_code
         where main_student.registration_number=%s;''',[regi])[0].sum
 
         credits_passed = Subject.objects.raw('''
-        SELECT 1 as id, SUM(credit)
+        SELECT 1 as course_code, SUM(credit)
         FROM public.main_student JOIN public.main_result ON
         main_student.registration_number = main_result.student_id
         JOIN public.main_subject ON main_result.course_code = main_subject.course_code
-        where main_student.registration_number=%s and marks>=40;''',[regi])[0].sum
+        where main_student.registration_number=%s and total>=40;''',[regi])[0].sum
         degree_status = ""
 
  
             
 
         cgpa = Subject.objects.raw('''
-        SELECT 1 as id, credit, marks
+        SELECT 1 as course_code, credit, total
         FROM public.main_student JOIN public.main_result ON
         main_student.registration_number = main_result.student_id
         JOIN public.main_subject ON main_result.course_code = main_subject.course_code
-        where main_student.registration_number=%s and marks>=40;''',[regi])
+        where main_student.registration_number=%s and total>=40;''',[regi])
         upper =0
         lower = 0
         for k in cgpa:
-            upper =upper+ k.credit * cal_cg(k.marks)
+            upper =upper+ k.credit * cal_cg(k.total)
             lower =lower + k.credit
         
         current_cgpa = upper/lower
@@ -261,7 +263,7 @@ def studentHome(request):
             remain = "Need to pass "+ str(remain_credit) +" more credits to get a degreee" 
         else:
             degree_status = "COMPLETE"
-            remain = "Congratulations!!! You are a SUST "+ dept +"Graduate"  
+            remain = "Congratulations!!! You are a SUST "+ str(dept) +" Graduate"  
 
         attendance = Result.objects.raw('''
         SELECT 1 as id, subject_name as sn , attendence as attend FROM
@@ -293,8 +295,83 @@ def studentHome(request):
 
 @login_required(login_url = 'login')
 def teacher_home(request):
-    return render(request,'teacher_template/index.html')
+    name = str(request.user.teacher.name)
+    dept = str(request.user.teacher.dept_id)
+    t_id = str(request.user.teacher.teacher_id)
+    num_of_regi_sub = AssignedTeacher2.objects.filter(teacher_id = t_id).count()
+    major_course = AssignedTeacher2.objects.filter(student_dept = dept, teacher_id = t_id).count()
+    context ={ 'name':name,
+                'dept':dept,
+                't_id': t_id,
+                'n_ass': num_of_regi_sub,
+                'major': major_course
 
+    }
+    return render(request,'teacher_template/index.html',context)
+
+@login_required(login_url = 'login')
+def courseWiseParticipation(request, *args, **kwargs):
+    t_id = str(request.user.teacher.teacher_id)
+    attendance = Result.objects.raw('''
+    SELECT 1 as id, main_assignedteacher2.course_code as sn , SUM(attendence) as attend FROM
+    public.main_assignedteacher2 JOIN public.main_result ON
+    main_assignedteacher2.course_code = main_result.course_code AND student_dept = dept
+	where main_assignedteacher2.teacher_id=%s
+	group by main_assignedteacher2.course_code;''',[t_id])
+    data =[]
+    labels =[]
+    for i in attendance:
+        labels.append(i.sn)
+        data.append(i.attend)
+
+    return JsonResponse(data={
+        'labels': labels,
+        'data':data,
+    })
+
+
+
+@login_required(login_url = 'login')
+def course_wise_performance(request, *args, **kwargs):
+    t_id = str(request.user.teacher.teacher_id)
+    attendance = Result.objects.raw('''
+    SELECT 1 as id, main_assignedteacher2.course_code as sn , SUM(total) as total, COUNT(*) as cnt FROM
+    public.main_assignedteacher2 JOIN public.main_result ON
+    main_assignedteacher2.course_code = main_result.course_code AND student_dept = dept
+	where main_assignedteacher2.teacher_id=%s
+	group by main_assignedteacher2.course_code;''',[t_id])
+    data =[]
+    labels =[]
+
+    for i in attendance:
+        labels.append(i.sn)
+        data.append((i.total/(i.cnt*100.0))*10)
+
+    return JsonResponse(data={
+        'labels': labels,
+        'data':data,
+    })
+
+@login_required(login_url = 'login')
+def session_wise_courses(request, *args, **kwargs):
+    t_id = str(request.user.teacher.teacher_id)
+    attendance = Result.objects.raw('''
+    SELECT 1 as id, session as sn , COUNT(*) as cnt FROM
+    public.main_assignedteacher2
+    JOIN main_subject ON main_assignedteacher2.course_code = main_subject.course_code
+	where main_assignedteacher2.teacher_id=%s
+	group by session;''',[t_id])
+    data =[]
+    labels =[]
+
+    for i in attendance:
+        labels.append(i.sn)
+        data.append(i.cnt)
+
+    return JsonResponse(data={
+        'labels': labels,
+        'data':data,
+    })
 
 #--------------------------------------------*****GET*****-------------------------------------------------------------#
 
@@ -321,19 +398,21 @@ def get_att(request, *args, **kwargs):
 def get_subtype(request, *args, **kwargs):
     regi = request.user.student.registration_number
     subtype = Result.objects.raw('''
-    SELECT 1 as id, subtype, SUM(marks) as sum_marks, count(subtype) as cnt FROM
+    SELECT 1 as id, subtype, SUM(total) as sum_marks, count(subtype) as cnt FROM
     public.main_student JOIN public.main_result ON
     main_student.registration_number = main_result.student_id
     JOIN public.main_subject ON main_result.course_code = main_subject.course_code
-	where registration_number = %s and marks>=40
+	where registration_number = %s
     group by subtype;''',[regi])
 
     data =[]
     labels =[]
     for i in subtype:
         labels.append(i.subtype)
-        cntt = min(i.cnt*.5,3)
-        data.append((i.sum_marks)*7/(i.cnt*100) + cntt)
+        cntt = min(i.cnt*.75,3)
+        print(i.cnt)
+        print(i.sum_marks)
+        data.append((i.sum_marks)*8/(i.cnt*100) + cntt)
 
     return JsonResponse(data={
         'labels': labels,
@@ -342,7 +421,7 @@ def get_subtype(request, *args, **kwargs):
 def getting_json(subtype, regi):
 
     marksObj = Result.objects.raw('''
-    SELECT 1 as id, subject_name, main_subject.course_code as cc, marks FROM
+    SELECT 1 as id, subject_name, main_subject.course_code as cc, total FROM
     public.main_student JOIN public.main_result ON
     main_student.registration_number = main_result.student_id
     JOIN public.main_subject ON main_result.course_code = main_subject.course_code
@@ -362,7 +441,10 @@ def getting_json(subtype, regi):
         obj[attr[0]] = i.subject_name
         print(i.subject_name)
         obj[attr[1]] = i.cc
-        obj[attr[2]]= i.marks
+        
+        cg = cal_cg(i.total)
+        print(i.total)
+        obj[attr[2]]= cg
         json_res.append(obj) 
     return json_res
 
@@ -370,33 +452,36 @@ def getting_json(subtype, regi):
 def getting_json_result(regi):
 
     marksObj = Result.objects.raw('''
-    SELECT 1 as id, subject_name, main_subject.course_code as cc, marks, attendence as attendance FROM
+    SELECT 1 as id, subject_name, main_subject.course_code as cc, total, attendence as attendance, term_test as tt, theory_marks as theory FROM
     public.main_student JOIN public.main_result ON
     main_student.registration_number = main_result.student_id
     JOIN public.main_subject ON main_result.course_code = main_subject.course_code
 	where registration_number = %s''',[regi])
     
 
-    subject_name =[]
-    course_code =[]
-    marks = []
     attr = []
     
     attr.append("subject_name")
     attr.append("course_code")
-    attr.append("marks")
     attr.append("attendance")
+    attr.append("tt")
+    attr.append("theory")
+    attr.append("total")
     attr.append("cgpa")
     json_res =[]
     for i in marksObj:
         obj = {}
         obj[attr[0]] = i.subject_name
         obj[attr[1]] = i.cc
-        obj[attr[2]]= i.marks
-        obj[attr[3]] = i.attendance
-        cgpa = cal_cg(i.marks)
-        obj[attr[4]]= cgpa
+        obj[attr[2]]= i.attendance
+        obj[attr[3]] = i.tt
+        obj[attr[4]] = i.theory
+        obj[attr[5]] = i.total
+
+        cgpa = cal_cg(i.total)
+        obj[attr[6]]= cgpa
         json_res.append(obj) 
+        
     return json_res
 
 @login_required(login_url = 'login')
@@ -485,16 +570,15 @@ def get_all_the_marks(request, *args, **kwargs):
 
 def see_registration_status(request, *args, **kwargs):
     regi = str(request.user.student.registration_number)
-    print(regi)
-    dep = request.user.student.dept
+    dep = str(request.user.student.dept)
     register = Result.objects.raw('''
     SELECT 1 as id, status, subject_id, dept_id as sub, dept_id as teacher FROM main_registertable
 	where student_id = %s ''',[regi])
 
     for i in register:
         c_id = i.subject_id
-        subject_name = Subject.objects.get(course_code = c_id).subject_name    
-        assi_tea = AssignedTeacher2.objects.get(course_code = c_id, student_dept = i.sub).teacher_id
+        subject_name = Subject.objects.get(course_code = c_id).subject_name  
+        assi_tea = AssignedTeacher2.objects.get(course_code = c_id, student_dept = dep).teacher_id
         teacher_name = Teacher.objects.get(teacher_id = assi_tea).name
         print(teacher_name)
         i.sub = subject_name
@@ -592,7 +676,7 @@ class GeneratePdf(View):
         email = request.user.email
         dept = request.user.student.dept
         data = Result.objects.raw('''
-        SELECT 1 as id, subject_name, main_subject.course_code as cc, marks, attendence as attendance ,student_id as cg , credit FROM
+        SELECT 1 as id, subject_name, main_subject.course_code as cc, total, attendence as attendance ,student_id as cg , credit FROM
         public.main_student JOIN public.main_result ON
         main_student.registration_number = main_result.student_id
         JOIN public.main_subject ON main_result.course_code = main_subject.course_code
@@ -603,8 +687,8 @@ class GeneratePdf(View):
         cgpa = 0
         status =""
         for k in data:
-            if k.marks>=40:
-                upper =upper+ k.credit * cal_cg(k.marks)
+            if k.total>=40:
+                upper =upper+ k.credit * cal_cg(k.total)
                 lower =lower + k.credit
         
         if lower == 0:
@@ -618,7 +702,7 @@ class GeneratePdf(View):
             status = "Complete"
 
         for i in data:
-            i.student_id = cal_cg(i.marks)
+            i.student_id = cal_cg(i.total)
                     
 
         module_dir = os.path.dirname(__file__)  # get current directory
@@ -650,7 +734,7 @@ def search_result1(request):
         registration_number = request.POST.get('registration_number')
         return redirect(reverse('search_result', kwargs={"regi": registration_number}))
        
-    return render(request,'admin_template/search_result1.html')
+    return render(request,'teacher_template/search_result1.html')
 
 @login_required(login_url = 'login')
 @allowed_users(allowed_roles=['teacher'])
@@ -667,39 +751,47 @@ def search_result(request, regi):
         id = obj.id
         return redirect(reverse('update_result', kwargs={"result_id": id}))
        
-    return render(request,'admin_template/search_result.html',context)
+    return render(request,'teacher_template/search_result.html',context)
 
 
 @login_required(login_url = 'login')
 @allowed_users(allowed_roles=['teacher'])
 def search_student_registered(request):
+
+    t_id = str(request.user.teacher.teacher_id)
+    data = AssignedTeacher2.objects.filter(teacher_id = t_id)
+    
+    context = {'data':data}
     
     if request.method == 'POST':
-        regi = request.POST.get('registration_number')
         course_id = request.POST.get('course_code')
-        res = Student.objects.filter(registration_number = regi).first()
-        sub = Subject.objects.filter(course_code = course_id).first()
-        if res == None:
-            messages.info(request, "The student is not registered..Register the student from here first")
-            return redirect(reverse('add_student'))
-        if sub == None:
-            return HttpResponse("The Subject Is not Registered.. Register The Subject First")
-        return redirect(reverse('add_result', kwargs= {"regi": regi, "course_id": course_id}))
-    return render(request,'admin_template/search_student_registered.html')
+        xx = course_id.split(",")
+        print(xx)
+        # res = Student.objects.filter(registration_number = regi).first()
+        # sub = Subject.objects.filter(course_code = course_id).first()
+        # if res == None:
+        #     messages.info(request, "The student is not registered..Register the student from here first")
+        #     return redirect(reverse('add_student'))
+        # if sub == None:
+        #     return HttpResponse("The Subject Is not Registered.. Register The Subject First")
+        return redirect(reverse('add_result', kwargs= {"dept": xx[1], "course_id": xx[0]}))
+    return render(request,'teacher_template/search_student_registered.html',context)
         
 ###-----------------------------------SEARCH END------------------------------------------------------------------------#
 
 @login_required(login_url = 'login')
-@allowed_users(allowed_roles=['admin'])
+@allowed_users(allowed_roles=['teacher'])
 def update_result(request, result_id):
     result = get_object_or_404(Result, id =result_id)
     form = UpdateForm(request.POST or None, instance = result)
     regi = result.student_id
     context = {'form':form, 'regi': regi}
+    
     if form.is_valid():
+        print("KKK")
         form.save()
     
-    return render (request, 'admin_template/update_result.html',context)
+    return render (request, 'teacher_template/update_result.html',context)
 
 
 
@@ -747,40 +839,86 @@ def add_student(request):
 
 
 
+# @login_required(login_url = 'login')
+# @allowed_users(allowed_roles=['teacher'])
+# def add_result(request, dept, course_id):
+#     stu =  get_object_or_404(Student, registration_number = regi)
+#     res = Result.objects.filter(student_id = regi, course_code = course_id).first()
+#     if res != None:
+#         obj = Result.objects.get(student_id = regi ,course_code = course_id)
+#         id = obj.id
+#         messages.info(request, "Result Already Exist, You Can Update That Result Here")
+#         return redirect(reverse('update_result', kwargs= {"result_id": id}))
+
+#     form = AddResultForm(request.POST or None, initial ={'student': stu, 'course_code': course_id })
+#     context = {'form':form, 'regi': regi, 'course_id': course_id}
+#     if form.is_valid():
+#         form.save()
+#     return render(request, 'admin_template/add_result.html',context)
+
 @login_required(login_url = 'login')
 @allowed_users(allowed_roles=['teacher'])
-def add_result(request, regi, course_id):
-    stu =  get_object_or_404(Student, registration_number = regi)
-    res = Result.objects.filter(student_id = regi, course_code = course_id).first()
-    if res != None:
-        obj = Result.objects.get(student_id = regi ,course_code = course_id)
-        id = obj.id
-        messages.info(request, "Result Already Exist, You Can Update That Result Here")
-        return redirect(reverse('update_result', kwargs= {"result_id": id}))
+def add_result(request, dept, course_id):
 
-    form = AddResultForm(request.POST or None, initial ={'student': stu, 'course_code': course_id })
-    context = {'form':form, 'regi': regi, 'course_id': course_id}
-    if form.is_valid():
-        form.save()
+    register = RegisterTable.objects.filter(subject_id = course_id, dept_id = dept, status = 'Approved')
+    context = {'data':register}
+    if request.method == 'POST':
+        regi = request.POST.get('registration_number')
+        print(regi)
+        obj = Result.objects.filter(student_id = regi ,course_code = course_id).first()
+        if obj != None:
+            id = obj.id
+            messages.info(request, "Result Already Exist, You Can Update That Result Here")
+            return redirect(reverse('update_result', kwargs= {"result_id": id}))
+        else:
+            return redirect(reverse('add_result2', kwargs= {"regi": regi, "cour_id": course_id}))
+
+    # form = AddResultForm(request.POST or None, initial ={'student': stu, 'course_code': course_id })
+    # context = {'form':form, 'regi': regi, 'course_id': course_id}
+    # if form.is_valid():
+    #     form.save()
     return render(request, 'admin_template/add_result.html',context)
+
 
 @login_required(login_url = 'login')
 @allowed_users(allowed_roles=['admin'])
 def add_subject(request):
-    form = AddSubjectForm(request.POST or None)
-    context = {'form': form,'page_title':'add subject'}
+    context = {'page_title':'add subject'}
     if request.method == 'POST':
-        if form.is_valid:
-            
-            c_id = form.cleaned_data.get('course_code') 
-            sub = Subject.objects.filter(course_id = c_id).first()
-            if sub == None:
-                form.save()
-                messages.success(request, "Subject Successfully Added")
-            else:
-                messages.error(request, "Could'nt add subjects.. Subject is Alraeady registered")
+        dep_id = request.POST.get('dept_id')
+        c_id = request.POST.get('course_code')
+        sub_name = request.POST.get('subject_name')
+        sess = request.POST.get('session')
+        cred = float(request.POST.get('credit'))
+        genre = request.POST.get('genre')
+        
+        sub = Subject.objects.filter(course_code = c_id).first()
+        dep = Dept.objects.filter(dept_id = dep_id).first()
+        
+        if sub == None and dep != None:
+            subObj = Subject(
+                course_code = c_id,
+                subject_name = sub_name,
+                credit = cred,
+                session = sess,
+                subtype = genre,
+                dept_id = dep_id,
+
+
+
+
+
+            )
+            subObj.save()
+                
+            messages.success(request, "Subject Successfully Added")
         else:
-            messages.error(request, "Could'nt add subjects..Probable reasons:<br> 1. Stubject Code and Type not properly entered ")
+            if dep == None:
+                messages.error(request, " %s Dept is not registered. Register The Department First From Here"%(dep_id))
+                return redirect('add_dept')
+            messages.error(request, "Could'nt add subjects.. Subject is Alraeady registered")
+    else:
+        messages.error(request, "Could'nt add subjects..Probable reasons:<br> 1. Stubject Code and Type not properly entered ")
     return render(request, 'admin_template/add_subject.html',context)
 
 
@@ -788,17 +926,21 @@ def add_subject(request):
 @login_required(login_url = 'login')
 @allowed_users(allowed_roles=['teacher'])
 def add_j(request):
-    data = Result.objects.raw('''
-    SELECT 1 as id, course_code FROM main_subject
-    ''')
+    t_id = str(request.user.teacher.teacher_id)
+    print(t_id)
+    data = AssignedTeacher2.objects.filter(teacher_id = t_id)
 
     context={'course':data} 
     if request.method == 'POST' and request.FILES['myfile']:
         myfile = request.FILES['myfile']
         code = request.POST.get('course_code')
+        xx =code.split(",")
+        print(xx)
+        course_cd = xx[0]
+        dept_id =xx[1]
         fs = FileSystemStorage()
         filename = fs.save(myfile.name, myfile)
-        module_dir = 'C:\\Users\\neyamul\\Projects\\university_management_system\\university_management_system\\media'
+        module_dir = 'C:\\Users\\neyamul\\Projects\\university_management_system_extend\\university_management_system\\media'
         file_path =os.path.join(module_dir, filename)
 
         f =open(file_path)
@@ -808,10 +950,30 @@ def add_j(request):
 
         for i in range(0, len(y)):
             
-            course = code
+            course = course_cd
+            dept = dept_id
             regi = y[i]["student_id"]
-            marks =y[i]["marks"]
-            attendence =y[i]["attendence"]
+            theory_mar =y[i]["theory_marks"]
+            term_tes =y[i]["term_test"]
+            attendence = y[i]["attendence"]
+
+            total_marks = round((float(theory_mar)/100.0)*70+(float(term_tes)/30.0)*20+attendence)
+
+            register1 = RegisterTable.objects.filter(student_id = regi, dept_id = dept, subject_id = course_cd).first()
+
+            if register1== None:
+                messages.error(request," %s student did not sent  register request for %s course "% (regi, course_cd))
+                continue
+            
+            if register1.status == 'Pending':
+                messages.error(request," %s student registration for %s course is pending, Approve first "% (regi, course_cd))
+                continue
+
+            if register1.status == 'Rejected':
+                messages.error(request," %s student registration for %s course is Rejected "% (regi, course_cd))
+                continue
+
+
 
 
 
@@ -822,19 +984,23 @@ def add_j(request):
             
             sd = Student.objects.filter(registration_number = regi).first()
             if sd == None:
-                messages.error(request," %s student is not registered "% (regi))
+                messages.error(request," %s student is not registered in %s Department "% (regi, dept_id))
                 continue
-            sb = Subject.objects.filter(course_code = course).first()
-            if sb == None:
-                messages.error(request," %s course is not registered "% (course))
-                continue
+            # sb = Subject.objects.filter(course_code = course).first()
+            # if sb == None:
+            #     messages.error(request," %s course is not registered "% (course))
+            #     continue
             # cursor.execute('''INSERT INTO main_result (course_code, marks, attendence, student_id)
             # VALUES (%s,%s,%s,%s );'''% (course, marks, attendence, regi))
             sub = Result(
-                student_id = regi,
                 course_code =course,
-                marks = marks,
-                attendence = attendence
+                theory_marks = theory_mar,
+                term_test = term_tes,
+                attendence = attendence,
+                dept = dept_id,
+                student_id = regi,
+                total = total_marks,
+                
 
 
             )
@@ -847,7 +1013,7 @@ def add_j(request):
 
 
 
-    return render(request,'admin_template/add_json.html',context)
+    return render(request,'teacher_template/add_json.html',context)
 
 
 @login_required(login_url = 'login')
@@ -1006,6 +1172,8 @@ def teacher_approval(request, course_code, student_dept):
         stat = request.POST.get('optionsRadios')
         xx = stat.split(',')
         print(xx)
+        if xx[0]=='Pending' or xx[0]=='Rejected':
+            Result.objects.filter(student_id = xx[1], course_code = course_code, dept = student_dept).delete()
 
         RegisterTable.objects.filter(subject_id = course_code, student_id = xx[1]).update(status = xx[0])
 

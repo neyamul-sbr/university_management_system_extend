@@ -1,2 +1,458 @@
 {%extends 'main/main_home_teachers.html'%} {%block content%}
+<!-- partial -->
+
+<div class="row">
+    <div class="col-md-12 grid-margin">
+        <div class="row">
+            <div class="col-12 col-xl-8 mb-4 mb-xl-0">
+                <!-- here name-->
+                <h3 class="font-weight-bold">Welcome, {{name}} (Teacher)</h3>
+            </div>
+            <div class="col-12 col-xl-4">
+                <div class="justify-content-end d-flex">
+                    <div class="dropdown flex-md-grow-1 flex-xl-grow-0">
+                        <div aria-haspopup="true" aria-expanded="true">
+                            Today, {% now "jS F Y (g:i a)" %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12 grid-margin">
+        <div class="row">
+    <div class="col-md-3 stretch-card grid-margin grid-margin-md-0">
+        <div class="card data-icon-card-primary">
+          <div class="card-body">
+            <p class="card-title text-white">Your Department</p>                      
+            <div class="row">
+              <div class="col-8 text-white">
+                <h3>{{dept}}</h3>
+              </div>
+
+            </div>
+          </div>
+        </div>
+    </div>
+    <div class="col-md-3 stretch-card grid-margin grid-margin-md-0">
+        <div class="card data-icon-card-primary">
+          <div class="card-body">
+            <p class="card-title text-white">Your ID</p>                      
+            <div class="row">
+              <div class="col-8 text-white">
+                <h3>{{t_id}}</h3>
+              </div>
+
+            </div>
+          </div>
+        </div>
+    </div>
+    <div class="col-md-3 stretch-card grid-margin grid-margin-md-0">
+        <div class="card data-icon-card-primary">
+          <div class="card-body">
+            <p class="card-title text-white">Your Number of Assigned Courses</p>                      
+            <div class="row">
+              <div class="col-8 text-white">
+                <h3>{{n_ass}}</h3>
+              </div>
+
+            </div>
+          </div>
+        </div>
+    </div>
+    <div class="col-md-3 stretch-card grid-margin grid-margin-md-0">
+        <div class="card data-icon-card-primary">
+          <div class="card-body">
+            <p class="card-title text-white">Number of Assigned Major Courses</p>                      
+            <div class="row">
+              <div class="col-8 text-white">
+                <h3>{{major}}</h3>
+              </div>
+
+            </div>
+          </div>
+        </div>
+    </div>
+    </div>
+    </div>
+
+</div>
+<div class="row">
+    <div class="col-md-12 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <p class="card-title">Course Wise Student Participation Pie Chart</p>
+                </div>
+                <p class="font-weight-500">
+                    Here is the Pie Chart Of Student Participation of Your Courses
+                </p>
+                <div id="sales-legend" class="chartjs-legend mt-4 mb-2"></div>
+                <canvas id="pieChart" data-url="{% url 'course_wise_participation' %}"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <!-- <div class="col-md-6 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <p class="card-title">Skill Set Chart</p>
+                    <a href="{% url 'full_skillset' %}" class="text-info">View Full Screen</a>
+                </div>
+                <canvas id="barChartH" data-url="{% url 'get_subtype' %}"></canvas>
+            </div>
+        </div>
+    </div> -->
+</div>
+<div class="row">
+    <div class="col-md-6 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <p class="card-title">Course Wise Performances Of students of your Courses</p>
+                </div>
+                <p class="font-weight-500">
+                    Here is the Coursewise Performance of Students that you are conducting
+                </p>
+                <div id="sales-legend" class="chartjs-legend mt-4 mb-2"></div>
+                <canvas id="barChartH" data-url="{% url 'course_wise_performance' %}"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <p class="card-title">Session Wise Courses</p>
+                </div>
+                <p class="font-weight-500">
+                    Here is the sessionwise courses you are conducting
+                </p>
+                <div id="sales-legend" class="chartjs-legend mt-4 mb-2"></div>
+                <canvas id="barChart1" data-url="{% url 'session_wise_courses' %}"></canvas>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+
+
+
+
+<div class="col-md-12 grid-margin stretch-card">
+    <div class="card">
+        <div class="card-body">
+            <div class="d-flex justify-content-between">
+                <p class="card-title">Results With Subtype</p>
+            </div>
+
+            <button id="button" type="button" class="btn btn-primary btn-md mx-auto" data-toggle="modal"
+                data-target="#modalTable">
+                Networking
+            </button>
+            <div id="modalTable" class="modal fade" tabindex="-1" role="dialog">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Networking Genre Related Courses Results</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <table id="table" data-toggle="table" data-height="345"
+                                data-url="http://127.0.0.1:8000/get_subtype_networking_marks">
+                                <thead>
+                                    <tr>
+                                        <th data-field="subject_name">Subject</th>
+                                        <th data-field="course_code">Course Code</th>
+                                        <th data-field="marks">CGPA</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <button id="button" type="button" class="btn btn-primary btn-md mx-auto" data-toggle="modal"
+                data-target="#modalTable1">
+                DBMS
+            </button>
+            <div id="modalTable1" class="modal fade" tabindex="-1" role="dialog">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Modal table</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <table id="table" data-toggle="table" data-height="345"
+                                data-url="http://127.0.0.1:8000/get_subtype_dbms_marks">
+                                <thead>
+                                    <tr>
+                                        <th data-field="subject_name">Subject</th>
+                                        <th data-field="course_code">Course Code</th>
+                                        <th data-field="marks">CGPA</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <button id="button" type="button" class="btn btn-primary btn-md mx-auto" data-toggle="modal"
+                data-target="#modalTable2">
+                Artificial intelligence
+            </button>
+            <div id="modalTable2" class="modal fade" tabindex="-1" role="dialog">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Artificial intelligence Genre Related Course Results </h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <table id="table" data-toggle="table" data-height="345"
+                                data-url="http://127.0.0.1:8000/get_subtype_ai_marks">
+                                <thead>
+                                    <tr>
+                                        <th data-field="subject_name">Subject</th>
+                                        <th data-field="course_code">Course Code</th>
+                                        <th data-field="marks">CGPA</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <button id="button" type="button" class="btn btn-primary btn-md mx-auto" data-toggle="modal"
+                data-target="#modalTable3">
+                System & Multimedia
+            </button>
+            <div id="modalTable3" class="modal fade" tabindex="-1" role="dialog">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">System & Multimedia Genre Related Courses Results</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <table id="table" data-toggle="table" data-height="345"
+                                data-url="http://127.0.0.1:8000/get_subtype_sys_n_media_marks">
+                                <thead>
+                                    <tr>
+                                        <th data-field="subject_name">Subject</th>
+                                        <th data-field="course_code">Course Code</th>
+                                        <th data-field="marks">CGPA</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <button id="button" type="button" class="btn btn-primary btn-md mx-auto" data-toggle="modal"
+                data-target="#modalTable4">
+                Programming
+            </button>
+            <div id="modalTable4" class="modal fade" tabindex="-1" role="dialog">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Programming Genre Related Course Results</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <table id="table" data-toggle="table" data-height="345"
+                                data-url="http://127.0.0.1:8000/get_subtype_programming_marks">
+                                <thead>
+                                    <tr>
+                                        <th data-field="subject_name">Subject</th>
+                                        <th data-field="course_code">Course Code</th>
+                                        <th data-field="marks">CGPA</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <button id="button" type="button" class="btn btn-primary btn-md mx-auto" data-toggle="modal"
+                data-target="#modalTable5">
+                Projects
+            </button>
+            <div id="modalTable5" class="modal fade" tabindex="-1" role="dialog">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Project Genre Related Course Results</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <table id="table" data-toggle="table" data-height="345"
+                                data-url="http://127.0.0.1:8000/get_subtype_project_marks">
+                                <thead>
+                                    <tr>
+                                        <th data-field="subject_name">Subject</th>
+                                        <th data-field="course_code">Course Code</th>
+                                        <th data-field="marks">CGPA</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+
+
+
+
+    </div>
+</div>
+<div class="col-lg-12 grid-margin stretch-card">
+    <div class="card">
+        <div class="card-body">
+            <div class="d-flex justify-content-between">
+                <p class="card-title">Complete Marksheet</p>
+                <a href="{% url 'generate_pdf' %}" class="text-info"><i class="ti-import"></i> Download Marksheet</a>
+
+            </div>
+            <div class="d-flex justify-content-between">
+                <p class="card-title"></p>
+                <a href="{% url 'full_marksheet' %}" class="text-info"><i class="ti-fullscreen"></i> View Full Detailed
+                    Marksheet</a>
+            </div>
+            <p class="card-description">
+                This is the complete marks sheet of all the subjects that you have registered.
+            </p>
+            <div class="table-responsive pt-3">
+                <table class="table table-bordered table-hover">
+                    <table id="table" data-toggle="table" data-url='http://127.0.0.1:8000/get_all_the_marks'>
+                        <thead class="thead">
+                            <tr>
+                                <th data-field="subject_name">
+                                    Subject Name
+                                </th>
+                                <th data-field="course_code">
+                                    Course Code
+                                </th>
+                                <th data-field="cgpa">
+                                    C.G.P.A
+                                </th>
+                            </tr>
+                        </thead>
+                    </table>
+
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+<div class="col-lg-12 grid-margin stretch-card">
+    <div class="card">
+        <div class="card-body">
+            <p class="card-title">Registration Approval Status Table</p>
+            <p class="card-description">
+                This is the complete marks sheet of all the subjects that you have registered.
+            </p>
+            <div class="table-responsive pt-3">
+                <table class="table table-bordered table-hover">
+                    <table id="table" data-toggle="table" data-url='http://127.0.0.1:8000/see_registration_status'>
+                        <thead class="thead">
+                            <tr>
+                                <th data-field="course_code">
+                                    Course Code
+                                </th>
+                                <th data-field="subject_name">
+                                    Subject Name
+                                </th>
+                                <th data-field="teacher">
+                                    Course Teacher
+                                </th>
+                                <th data-field="status">
+                                    Status
+                                </th>
+
+                            </tr>
+                        </thead>
+                    </table>
+
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+</div>
+</div>
+</div>
+
+
+
+
+
+
+</div>
+</div>
+
+<!-- content-wrapper ends -->
+<!-- partial:partials/_footer.html -->
+<!-- partial -->
+</div>
+<!-- main-panel ends -->
+
+<!-- container-scroller -->
 {%endblock%}

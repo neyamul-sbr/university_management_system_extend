@@ -1,17 +1,17 @@
 [
     {
-        "course_code": "CSE240",
+        "course_code": "CSE233",
         "dept"       : "CSE",
         "student_id": "2017331047",
-        "theory_marks": 85,
+        "theory_marks": 90,
         "term_test": 25,
         "attendence": 8
     },
     {
-        "course_code": "CSE240",
+        "course_code": "CSE233",
         "dept"       : "CSE",
         "student_id": "2017331001",
-        "theory_marks": 60,
+        "theory_marks": 80,
         "term_test": 10,
         "attendence": 9
     }

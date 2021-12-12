@@ -5,7 +5,7 @@
   <!-- Required meta tags -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <title>Student Dashboard</title>
+  <title>Admin Dashboard</title>
   <!-- plugins:css -->
   <link rel="stylesheet" href="{% static 'template/vendors/feather/feather.css' %}">
   <link rel="stylesheet" href="{% static 'template/vendors/ti-icons/css/themify-icons.css' %}">
@@ -78,23 +78,37 @@
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="{% url 'add_student' %}">
-              <i class="icon-plus menu-icon"></i>
-              <span class="menu-title">Add Student</span>
-            </a>
-          </li>
-          <li class="nav-item">
             <a class="nav-link" href="{% url 'add_admin' %}">
               <i class="ti-user menu-icon"></i>
               <span class="menu-title">Add Admin</span>
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="{% url 'add_subject' %}">
-              <i class="ti-pencil-alt menu-icon"></i>
-              <span class="menu-title">Register Subject</span>
+            <a class="nav-link" href="{% url 'add_teacher' %}">
+              <i class="ti-user menu-icon"></i>
+              <span class="menu-title">Add Teacher</span>
             </a>
           </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'add_student' %}">
+              <i class="icon-plus menu-icon"></i>
+              <span class="menu-title">Add Student</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'add_dept' %}">
+              <i class="ti-briefcase menu-icon"></i>
+              <span class="menu-title">Add Department</span>
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'add_subject' %}">
+              <i class="ti-pencil-alt menu-icon"></i>
+              <span class="menu-title">Add New Subject</span>
+            </a>
+          </li>
+
 
           <li class="nav-item">
             <a class="nav-link" href="{% url 'assign_teacher_dept_search' %}">
@@ -104,6 +118,9 @@
           </li>
         </ul>
       </nav>
+      <div class="main-panel">
+        {% include 'main/message.html' %}
+        <div class="content-wrapperadmin">
     
       {%block content%}
 
@@ -129,6 +146,9 @@
   <!-- Custom js for this page-->
   <script src="{% static 'template/js/dashboard.js' %}"></script>
   <script src="{% static 'template/js/Chart.roundedBarCharts.js' %}"></script>
+  <link href="https://unpkg.com/bootstrap-table@1.19.1/dist/bootstrap-table.min.css" rel="stylesheet">
+
+  <script src="https://unpkg.com/bootstrap-table@1.19.1/dist/bootstrap-table.min.js"></script>
   <!-- End custom js for this page-->
 </body>
 

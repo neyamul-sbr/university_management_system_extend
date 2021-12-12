@@ -3,9 +3,7 @@
 <body>
 
       <!-- partial -->
-      <div class="main-panel">        
-        <div class="content-wrapper">
-          {% include 'main/message.html' %}
+
             <div class="col-md-12 grid-margin stretch-card">
               <div class="card">
                 <div class="card-body">
@@ -16,37 +14,43 @@
                    
                   <form action = "" method="POST" enctype="multipart/form-data" class="forms-sample">
                     {% csrf_token %}
-                    <div class="form-group row">
-                      <label for="exampleInputUsername2" class="col-sm-3 col-form-label">Course Code: </label>
-                      <div class="col-sm-9">
-                        {{form.course_code}}
                   
+                      <div class="form-group row">
+                        <label for="exampleInputUsername2" class="col-sm-3 col-form-label">Course's Dept ID</label>
+                        <div class="col-sm-9">
+                          <input type="text" name="dept_id" class="form-control" id="exampleInputUsername2" placeholder="Enter The Course Origin Department ID. Example: CSE, EEE">
+                        </div>
                       </div>
-                    </div>
-                    <div class="form-group row">
-                      <label for="exampleInputEmail2" class="col-sm-3 col-form-label">Subject's Name: </label>
-                      <div class="col-sm-9">
-                        {{form.subject_name}}
+                      <div class="form-group row">
+                        <label for="exampleInputEmail2" class="col-sm-3 col-form-label">Course Code</label>
+                        <div class="col-sm-9">
+                          <input type="text" name="course_code" class="form-control" id="exampleInputEmail2" placeholder="Course Code">
+                        </div>
                       </div>
-                    </div>
-                    <!-- <div class="form-group row">
-                      <label for="exampleInputMobile" class="col-sm-3 col-form-label">Mobile</label>
-                      <div class="col-sm-9">
-                        <input type="text" class="form-control" id="exampleInputMobile" placeholder="Mobile number">
+                      <div class="form-group row">
+                        <label for="exampleInputEmail2" class="col-sm-3 col-form-label">Subject Name</label>
+                        <div class="col-sm-9">
+                          <input type="text" name="subject_name" class="form-control" id="exampleInputEmail2" placeholder="Subject Name">
+                        </div>
                       </div>
-                    </div> -->
-                    <div class="form-group row">
-                      <label for="exampleInputPassword2" class="col-sm-3 col-form-label">Password</label>
-                      <div class="col-sm-9">
-                        {{form.credit}}
+                      <div class="form-group row">
+                        <label for="exampleInputMobile" class="col-sm-3 col-form-label">Session</label>
+                        <div class="col-sm-9">
+                          <input type="text" name="session" class="form-control" id="exampleInputMobile" placeholder="Year/Semester. Example: 1/1, 2/2, 2/1">
+                        </div>
                       </div>
-                    </div>
-                    <div class="form-group row">
-                      <label for="exampleInputConfirmPassword2" class="col-sm-3 col-form-label">Re Password</label>
-                      <div class="col-sm-9">
-                        {{form.subtype}}
+                      <div class="form-group row">
+                        <label for="exampleInputPassword2" class="col-sm-3 col-form-label">Credit</label>
+                        <div class="col-sm-9">
+                          <input type="text" name="credit"  class="form-control" id="exampleInputPassword2" placeholder="Credit">
+                        </div>
                       </div>
-                    </div>
+                      <div class="form-group row">
+                        <label for="exampleInputConfirmPassword2" class="col-sm-3 col-form-label">Genre</label>
+                        <div class="col-sm-9">
+                          <input type="text" name= "genre" class="form-control" id="exampleInputConfirmPassword2" placeholder="Subject's Genre">
+                        </div>
+                      </div>
                     
                     <button type="submit" class="btn btn-primary mr-2">Submit</button>
                     <!-- <button class="btn btn-light">Cancel</button> -->

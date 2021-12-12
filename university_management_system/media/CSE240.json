@@ -1,7 +1,7 @@
 [
     {
         "course_code": "CSE240",
-        "dept"       : "CSE",
+        "dept": "CSE",
         "student_id": "2017331047",
         "theory_marks": 85,
         "term_test": 25,
@@ -9,7 +9,7 @@
     },
     {
         "course_code": "CSE240",
-        "dept"       : "CSE",
+        "dept": "CSE",
         "student_id": "2017331001",
         "theory_marks": 60,
         "term_test": 10,
