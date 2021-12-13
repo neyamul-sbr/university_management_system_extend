@@ -57,6 +57,29 @@ def cal_cg(marks):
     else:
         return 0.00
 
+def cal_cgname(cg):
+    if cg == 4.00:
+        return "A+"
+    elif cg == 3.75:
+        return "A"
+    elif cg == 3.50:
+        return "A-"
+    elif cg == 3.25:
+        return "B+"
+    elif cg == 3.00:
+        return "B"
+    elif cg == 2.75:
+        return "B-"
+    elif cg == 2.50:
+        return "C+"
+    elif cg == 2.25:
+        return "C"
+    elif cg == 2.00:
+        return "C-"
+    elif cg == 0.00:
+        return "F"
+
+
 
 
 
@@ -730,6 +753,9 @@ class GeneratePdf(View):
 
 
 
+
+
+
 ##-----------------------------------------SEARCH------------------------------------####
 
 
@@ -1310,25 +1336,81 @@ def subject_ranksheet_teacher(request):
         course_id = xx[0]
         dept_id = xx[1]
         marksObj = Result.objects.raw('''
-        SELECT 1 as id,main_student.name, main_student.registration_number as regi, total FROM
+        SELECT 1 as id,main_student.name as name, main_student.registration_number as regi, name as cgname, total as cg,
+        theory_marks, term_test, attendence as attend FROM
         public.main_student JOIN public.main_result ON
-        main_student.registration_number = main_result.student_id
-        and  main_student.dept_id = main_result.dept
-	    where main_subject.course_code = %s and dept = %s order by regi;''',[course_id])
+          registration_number = student_id
+        and  dept_id = dept
+	    where course_code = %s and dept = %s order by regi;''',[course_id, dept_id])
         cnt=1
-        your_rank = 0
-        regi1 = request.user.student.registration_number
         for i in marksObj:
-            if i.regi == regi1:
-                your_rank = cnt  
-            i.id =cnt
+            i.id = cnt
             cnt = cnt+1
-        subject_name = Subject.objects.get(course_code = course_id).subject_name
-        context={'data':marksObj,'course_id':course_id,'subject_name':subject_name, 'rank':your_rank} 
-        return render(request, 'student_template/course_result2.html',context)
+            i.cg = cal_cg(i.cg)
+            i.cgname = cal_cgname(i.cg) 
+            print(i.cgname)
 
-
+        subject = Subject.objects.get(course_code = course_id)
+        subject_name = subject.subject_name
+        session = subject.session
+        subject_dept = subject.dept_id
+        context={'data':marksObj,'course_id':course_id,'subject_name':subject_name,'session':session,
+                'subject_dept':subject_dept, 'student_dept': dept_id
+        
+        
+        
+        } 
+        return render(request, 'teacher_template/course_result2.html',context)
     return render(request, 'teacher_template/course_result.html',context)
+
+    
+
+class GeneratePdf2(View):
+    course_id = None
+    dept_id = None
+    def get(self, request, *args, **kwargs):
+        self.course_id = self.kwargs.get('course_id', None)
+        self.dept_id = self.kwargs.get('dept_id',None)
+
+        cid = str(self.course_id)
+        did = str(self.dept_id)
+        print(cid)
+        print(did)
+        marksObj = Result.objects.raw('''
+        SELECT 1 as id,main_student.name as name, main_student.registration_number as regi, name as cgname, total as cg,
+        theory_marks, term_test, attendence as attend FROM
+        public.main_student JOIN public.main_result ON
+          registration_number = student_id
+        and  dept_id = dept
+	    where course_code = %s and dept = %s order by regi;''',[cid, did])
+        cnt=1
+        for i in marksObj:
+            i.id = cnt
+            cnt = cnt+1
+            i.cg = cal_cg(i.cg)
+            i.cgname = cal_cgname(i.cg) 
+            # print(i.cgname)
+
+    
+        dept_name = Dept.objects.get(dept_id = did).name
+        subject_name = Subject.objects.get(course_code = cid).subject_name 
+        credit = Subject.objects.get(course_code = cid).credit 
+        session  = Subject.objects.get(course_code = cid).session
+
+        module_dir = os.path.dirname(__file__)  # get current directory
+        file_path1 = os.path.join(module_dir, 'templates/teacher_template/generate_result_pdf_temp.html')
+        file_path2 = os.path.join(module_dir, 'templates/teacher_template/generate_result_pdf.html')
+
+        pwd = os.path.dirname(__file__)
+        open(file_path1, "w").write(render_to_string(file_path2, {'data': marksObj, 'course_number': cid,'dept_name': dept_name,'subject_name': subject_name,'credit':credit ,'session':session}))
+
+        # Converting the HTML template into a PDF file
+        pdf = html_to_pdf(file_path1)
+         
+         # rendering the template
+        return HttpResponse(pdf, content_type='application/pdf')
+
+    
 
 
 

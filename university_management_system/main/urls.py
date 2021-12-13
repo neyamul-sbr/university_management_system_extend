@@ -29,6 +29,7 @@ urlpatterns = [
     path("get_subtype_programming_marks", views.get_subtype_programming_marks, name = 'get_subtype_programming_marks'),
     path("get_all_the_marks", views.get_all_the_marks, name = 'get_all_the_marks'),
     path('pdf/', views.GeneratePdf.as_view(),name ="generate_pdf"),
+    path('pdf2/<course_id>/<dept_id>', views.GeneratePdf2.as_view(),name ="generate_pdf2"),
     path('ranksheet/', views.subject_ranksheet,name ="ranksheet"),
     path('add_teacher/', views.registerPageTeacher,name ="add_teacher"),
     path('add_dept/', views.addDept,name ="add_dept"),

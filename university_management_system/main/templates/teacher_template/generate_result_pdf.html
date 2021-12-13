@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Result Sheet</title>
+  <style>
+    .styled-table {
+      border-collapse: collapse;
+      margin: 20px 0;
+      font-size: 1.3em;
+      font-family: sans-serif;
+      min-width: 400px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+    }
+
+    .styled-table thead tr {
+
+      text-align: left;
+    }
+
+    .styled-table th,
+    .styled-table td {
+      padding: 5px 1px;
+    }
+
+    .styled-table tbody tr {
+      border-bottom: 1px solid #dddddd;
+    }
+
+    .styled-table tbody tr:nth-of-type(even) {
+      background-color: #f3f3f3;
+    }
+
+    .styled-table tbody tr:last-of-type {
+      border-bottom: 2px solid #009879;
+    }
+
+    .styled-table tbody tr.active-row {
+      font-weight: bold;
+      color: #009879;
+    }
+
+    table {
+      border-collapse: collapse;
+      border: 1px solid black;
+      empty-cells:h;
+      
+
+    }
+
+
+    table.c {
+      table-layout: auto;
+      width: 100%;
+    }
+
+    h1 {
+      font-family: Arial;
+      text-align: center;
+    }
+
+    td{
+      text-align: left;
+    }
+    th {
+      text-align: center;
+    }
+
+    .center {
+      margin: auto;
+      text-align: center;
+    }
+
+    .left {
+      text-align: left;
+    }
+
+    img {
+      width: 100%;
+      padding-right: 20px;
+
+    }
+
+
+  </style>
+</head>
+
+<body>
+
+  <div>
+
+    <h1> <img
+        src="https://seeklogo.com/images/S/shahjalal-university-of-science-and-technology-logo-F34BC01F81-seeklogo.com.png"
+        alt="alternatetext" style="width:64px;height:64px; float:left; vertical-align:middle"> <br> Shahjalal University
+      Of Science and Technology, Sylhet, Sylhet, Bangladesh</h1>
+      <p align ="center"> Kumargaon, Sylhet-3114, Phone No: PABX : +880-821-713491, Website: www.sust.edu, E-mail: registrar@sust.edu</p>
+  </div>
+
+  <hr size="1" width="100%" color="black"> 
+  <div align ="center"> <h1 style="font-size:20px;">Course Wise Marks Information</h1> </div> 
+
+  <div>
+  <p style="font-size:15px;"> Department :&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Department of {{dept_name}}</p>
+  <p style="font-size:15px;"> Degree : &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Bachelor of Science (Engineering)</p>
+  <p style="font-size:15px;"> Year/Semester : &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{session}} </p>
+  <p style="font-size:15px;"> Course Number : &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{course_number}} </p>
+  <p style="font-size:15px;"> Course Title : &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;{{subject_name}}</p>
+  <p style="font-size:15px;"> Course Credit : &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{credit}} </p>
+  
+
+  </div>
+
+  <div>
+
+    <table class="styled-table">
+      <thead>
+        <tr>
+          <th width="30px">Sl.</th>
+          <th>Registration No.</th>
+          <th width="300px">Student's Name</th>
+          <th>Grade Point</th>
+          <th>Letter Grade</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for person in data %}
+        <tr>
+          <td align = "center">{{ person.id }}</td>
+          <td>{{ person.regi }}</td>
+          <td>{{ person.name}}</td>
+          <td align = "center">{{ person.cg }}</td>
+          <td align = "center">{{person.cgname}}</td>
+          
+        </tr>
+        {% endfor %}
+        
+        
+      </tbody>
+    </table>
+  </div>
+
+ 
+
+</body>
+
+</html>

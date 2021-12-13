@@ -1,21 +1,12 @@
-{%extends 'main/main_home_student.html'%} {%block content%}
+{%extends 'main/main_home_teachers.html'%} {%block content%}
 
-<div class="main-panel">
-    <div class="content-wrapper">
         <div class="col-lg-12 grid-margin stretch-card">
             <div class="card">
                 <div class="card-body">
                     <div class="d-flex justify-content-between">
-                        <p class="card-title">Ranksheet : {{subject_name}} ({{course_id}})</b></p>
-                
+                        <p class="card-title">Marks Information : {{subject_name}} ({{course_id}}) <br> Department Name : {{student_dept}}</b></p>
+                        <a href="http://127.0.0.1:8000/pdf2/{{course_id}}/{{student_dept}}" class="text-info">Download Marksheet</a>
                     </div>
-
-                    <p class="card-description">
-                        This is the ranking result of {{subject_name}}  
-                    </p>
-                    <p class ="text-info">
-                        Your Rank is <b>{{rank}}</b>  
-                    </p>
 
 
 
@@ -23,19 +14,27 @@
                     <table class="table table-bordered table-hover">
                         <thead>
                             <tr>
-                                <th>Rank</th>
+                                <th>Sl.</th>
+                                <th>Registration No.</th>
                                 <th>Student's Name</th>
-                                <th>Registration Number</th>
-                                <th>Marks</th>
+                                <th>Theory Marks</th>
+                                <th>Term Test</th>
+                                <th>Attendance</th>
+                                <th>Grade Point</th>
+                                <th>Letter Grade</th>
                             </tr>
                         </thead>
                         <tbody>
-                            {% for person in data %}
+                            {% for c in data %}
                             <tr>
-                                <td>{{ person.id }}</td>
-                                <td>{{ person.name }}</td>
-                                <td>{{ person.regi }}</td>
-                                <td>{{ person.marks }}</td>
+                                <td>{{ c.id }}</td>
+                                <td>{{ c.regi }}</td>
+                                <td>{{ c.name }}</td>
+                                <td>{{ c.theory_marks }}</td>
+                                <td>{{ c.term_test }}</td>
+                                <td>{{ c.attend }}</td>
+                                <td>{{ c.cg }}</td>
+                                <td>{{ c.cgname}}</td>
 
                             </tr>
                             {% endfor %}
