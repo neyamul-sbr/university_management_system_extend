@@ -99,24 +99,6 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'search_result1' %}">
-                            <i class="ti-write menu-icon"></i>
-                            <span class="menu-title">Edit Result</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'search_student_registered' %}">
-                            <i class="ti-face-smile menu-icon"></i>
-                            <span class="menu-title">Add Result</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'add_j' %}">
-                            <i class="ti-export menu-icon"></i>
-                            <span class="menu-title">Add Result Json</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
                         <a class="nav-link" href="{% url 'teacher_approve_search' %}">
                             <i class="ti-check-box menu-icon"></i>
                             <span class="menu-title">Approve Students</span>
@@ -124,8 +106,37 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'subject_ranksheet_teacher' %}">
-                            <i class="ti-check-box menu-icon"></i>
+                            <i class="ti-receipt menu-icon"></i>
                             <span class="menu-title">Courswise Results </span>
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'add_j' %}">
+                            <i class="ti-export menu-icon"></i>
+                            <span class="menu-title">Add Result Json</span>
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'search_result1' %}">
+                            <i class="ti-write menu-icon"></i>
+                            <span class="menu-title">Edit Result</span>
+                        </a>
+                    </li>
+                    <!-- <li class="nav-item">
+                        <a class="nav-link" href="{% url 'search_student_registered' %}">
+                            <i class="ti-face-smile menu-icon"></i>
+                            <span class="menu-title">Add Result</span>
+                        </a>
+                    </li> -->
+
+
+                    
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'delete_result' %}">
+                            <i class="ti-trash menu-icon"></i>
+                            <span class="menu-title">Delete Result </span>
                         </a>
                     </li>
 

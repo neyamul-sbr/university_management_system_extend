@@ -16,9 +16,9 @@ urlpatterns = [
     path("full_attendance/",views.full_attendance, name ='full_attendance'),
     path("full_marksheet/",views.full_marksheet, name ='full_marksheet'),
     path("full_skillset/",views.full_skillset, name ='full_skillset'),
-    path("result/<regi>", views.search_result, name = 'search_result'),
+    path("result/<course_code>/<dept>", views.search_result, name = 'search_result'),
     path("result1/", views.search_result1, name = 'search_result1'),
-    path("result/<result_id>/update", views.update_result, name ='update_result'),
+    path("result/update/<result_id>/<course_code>", views.update_result, name ='update_result'),
     path("add_result/<dept>/<course_id>", views.add_result, name='add_result'),
     path("search_student_registered/", views.search_student_registered, name = 'search_student_registered'),
     path("get_subtype_networking_marks", views.get_subtype_networking_marks, name = 'get_subtype_networking_marks'),
@@ -48,6 +48,9 @@ urlpatterns = [
     path('get_ratings_admin/', views.get_ratings_admin,name ="get_ratings_admin"),
     path('dept_performance/', views.dept_performance,name ="dept_performance"),
     path('subject_ranksheet_teacher/', views.subject_ranksheet_teacher,name ="subject_ranksheet_teacher"),
+    path('delete_result/', views.delete_result,name ="delete_result"),
+    path('delete_result2/<dept>/<course_id>', views.delete_result2,name ="delete_result2"),
+    path('teacher_subject_list/', views.teacher_subject_list,name ="teacher_subject_list"),
     
 
 

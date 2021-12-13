@@ -5,30 +5,62 @@
   <div class="content-wrapperteacher">
     {% include 'main/message.html' %}
         <div class="col-md-12 grid-margin stretch-card">
+          {% if form.errors %}
+    {% for field in form %}
+        {% for error in field.errors %}
+            <div class="alert alert-danger">
+                <strong>{{ error|escape }}</strong>
+            </div>
+        {% endfor %}
+    {% endfor %}
+    {% for error in form.non_field_errors %}
+        <div class="alert alert-danger">
+            <strong>{{ error|escape }}</strong>
+        </div>
+    {% endfor %}
+{% endif %}
 
           <div class="card">
             <div class="card-body">
               <h4 class="card-title">Edit Result</h4>
               <p class="card-description style="color:red;>
-                Marks and Attendance of  <b>{{regi}}</b>  Can be Updated Here 
+                Edit Result of <b>{{regi}}</b> Student's <b>{{course_id}}</b> Course.
                 
               </p>
                
               <form action = "" method="POST" enctype="multipart/form-data" class="forms-sample">
                 {% csrf_token %}
                 
-                <div class="form-group row">
-                  <label for="exampleInputEmail2" class="col-sm-3 col-form-label">Marks:</label>
-                  <div class="col-sm-9">
-                    {{form.total}}
-                  </div>
-                </div>
                 <!-- <div class="form-group row">
                   <label for="exampleInputMobile" class="col-sm-3 col-form-label">Mobile</label>
                   <div class="col-sm-9">
                     <input type="text" class="form-control" id="exampleInputMobile" placeholder="Mobile number">
                   </div>
                 </div> -->
+                <div class="form-group row">
+                    
+                  <div class="col-sm-9">
+                    {{form.student}}
+                  </div>
+                </div>
+                <div class="form-group row">
+  
+                  <div class="col-sm-9">
+                    {{form.course_code}}
+                  </div>
+                </div>
+              <div class="form-group row">
+                <!-- <label for="exampleInputEmail2" class="col-sm-3 col-form-label">Marks:</label> -->
+                <div class="col-sm-9">
+                  {{form.total}}
+                </div>
+              </div>
+              <div class="form-group row">
+                <!-- <label for="exampleInputEmail2" class="col-sm-3 col-form-label">Marks:</label> -->
+                <div class="col-sm-9">
+                  {{form.dept}}
+                </div>
+              </div>
                 <div class="form-group row">
                     <label for="exampleInputEmail2" class="col-sm-3 col-form-label">Attendance:</label>
                     <div class="col-sm-9">

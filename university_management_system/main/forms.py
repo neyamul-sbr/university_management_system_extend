@@ -65,16 +65,20 @@ class UpdateForm(ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(UpdateForm, self).__init__(*args, **kwargs)
+        #self.fields['student'].widget.attrs['class'] = 'form-control'
         self.fields['student'].widget.attrs['hidden'] = True
+        #self.fields['course_code'].widget.attrs['class'] = 'form-control'
         self.fields['course_code'].widget.attrs['hidden'] = True
         self.fields['theory_marks'].widget.attrs['class'] = 'form-control'
         self.fields['term_test'].widget.attrs['class'] = 'form-control'
         self.fields['attendence'].widget.attrs['class'] = 'form-control'
-        self.fields['total'].widget.attrs['class'] = 'form-control'
+        #self.fields['total'].widget.attrs['class'] = 'form-control'
+        self.fields['total'].widget.attrs['hidden'] = True
         self.fields['dept'].widget.attrs['hidden'] = True
+        #self.fields['dept'].widget.attrs['class'] = 'form-control'
     class Meta:
         model = Result
-        fields = '__all__'
+        fields ='__all__'
 
 
 class AddResultForm(ModelForm):

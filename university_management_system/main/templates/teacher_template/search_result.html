@@ -6,19 +6,17 @@
         <div class="card">
           <div class="card-body">
             <h4 class="card-title">Select the Course</h4>
-            <p class="card-description">Select Student's Registered Course</p>
+            <p class="card-description">Select A Registered Result published Student to Edit the result for ({{dept}}) Dept ({{course_code}}) Course</p>
             <form action="" method="POST" class="forms-sample">
               {% csrf_token %}
-              <div class="form-group">
-                <input type="text" name="registration_number"  value ="{{regi}}" readonly="readonly"class="form-control form-control-lg" id="exampleInputEmail1" placeholder="Registration Number">
-              </div>
+              
               <div class="form-group">
                 <!-- <input type="text" name="course_code" class="form-control form-control-lg" id="exampleInputPassword1" placeholder="Course Code"> -->
-                <label for="cars">Choose A Registered Course</label>
+                <label for="cars">Choose A Registration Number To Edit Result</label>
 
-<select name="course_code"  class="form-control form-control-lg" id="cars">
+<select name="registration_number"  class="form-control form-control-lg" id="cars">
   {%for c in course%}
-  <option value="{{c.course_code}}" {% if c in selected_values %} selected {% endif %}>{{c.course_code}}</option>
+  <option value="{{c.student_id}}" {% if c in selected_values %} selected {% endif %}>{{c.student_id}}</option>
   {% endfor %}
 </select>
               </div>

@@ -4,13 +4,14 @@
       <div class="col-md-12 grid-margin stretch-card">
         <div class="card">
           <div class="card-body">
-            <h4 class="card-title">Search</h4>
-            <p class="card-description">Search Student</p>
+            <h4 class="card-title">Choose From Your Conducted Courses</h4>
             <form action="" method="POST" class="forms-sample">
               {% csrf_token %}
-              <div class="form-group">
-                <input type="text" name="registration_number"  class="form-control form-control-lg" id="exampleInputEmail1" placeholder="Registration Number">
-              </div>
+              <select name="course_code"  class="form-control form-control-lg" id="cars">
+                {%for c in data%}
+                <option value="{{c.course_code}},{{c.student_dept}}" {% if c in selected_values %} selected {% endif %}>{{c.course_code}} for {{c.student_dept}} Department</option>
+                {% endfor %}
+              </select>
               <button type="submit" class="btn btn-primary mr-2">Search</button>
               <a href="{% url 'home' %}" class="btn btn-light" role="button">Cancel</a>
             </form>

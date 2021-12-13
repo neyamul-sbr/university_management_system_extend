@@ -514,6 +514,28 @@ def getting_json_result(regi):
         
     return json_res
 
+def teacher_subject_list(request):
+
+
+    t_id  = request.user.teacher.teacher_id
+
+    data = AssignedTeacher2.objects.filter(teacher_id = t_id)
+
+    
+
+    attr = []
+    
+    attr.append("course_code")
+    attr.append("student_dept")
+    json_res =[]
+    for i in data:
+        obj = {}
+        obj[attr[0]] = i.course_code
+        obj[attr[1]] = i.student_dept
+        json_res.append(obj) 
+        
+    return JsonResponse(json_res, safe = False) 
+
 @login_required(login_url = 'login')
 def get_subtype_networking_marks(request, *args, **kwargs):
     regi = request.user.student.registration_number
@@ -762,29 +784,26 @@ class GeneratePdf(View):
 @login_required(login_url = 'login')
 @allowed_users(allowed_roles=['teacher'])
 def search_result1(request):
+    t_id = request.user.teacher.teacher_id
+    data = AssignedTeacher2.objects.filter(teacher_id = t_id)
+
+    context = {  'data':data 
+
+
+
+
+    }
     
     if request.method == 'POST':
-        registration_number = request.POST.get('registration_number')
-        return redirect(reverse('search_result', kwargs={"regi": registration_number}))
-       
-    return render(request,'teacher_template/search_result1.html')
+        regi= request.POST.get('course_code')
+        xx = regi.split(',')
+        return redirect(reverse('search_result', kwargs={"course_code": xx[0], "dept" : xx[1]}))
 
-@login_required(login_url = 'login')
-@allowed_users(allowed_roles=['teacher'])
-def search_result(request, regi):
-    data = Result.objects.raw('''
-        SELECT 1 as id, course_code FROM main_result
-	    where student_id = %s''',[regi])
-
-    context={'course':data, 'regi': regi} 
-    if request.method == 'POST':
-        registration_number = request.POST.get('registration_number')
-        course_id = request.POST.get('course_code')
-        obj = Result.objects.get(student_id = registration_number ,course_code = course_id)
-        id = obj.id
-        return redirect(reverse('update_result', kwargs={"result_id": id}))
        
-    return render(request,'teacher_template/search_result.html',context)
+    return render(request,'teacher_template/search_result1.html',context)
+
+
+
 
 
 @login_required(login_url = 'login')
@@ -812,17 +831,53 @@ def search_student_registered(request):
         
 ###-----------------------------------SEARCH END------------------------------------------------------------------------#
 
+
+
 @login_required(login_url = 'login')
 @allowed_users(allowed_roles=['teacher'])
-def update_result(request, result_id):
+def search_result(request, course_code, dept):
+    data = Result.objects.filter(course_code = course_code, dept = dept)
+
+    context={'course':data, 'course_code': course_code, 'dept': dept} 
+    if request.method == 'POST':
+        registration_number = request.POST.get('registration_number')
+        obj = Result.objects.get(student_id = registration_number ,course_code = course_code, dept = dept )
+        id = int(obj.id)
+        print(id)
+        return redirect(reverse('update_result', kwargs= {"result_id": id,"course_code": course_code}))
+        
+    return render(request,'teacher_template/search_result.html',context)
+
+
+
+@login_required(login_url = 'login')
+@allowed_users(allowed_roles=['teacher'])
+def update_result(request, result_id, course_code):
     result = get_object_or_404(Result, id =result_id)
+    stu = result.student_id
+    course_id = result.course_code
+    dept = result.dept
+    theory_marks = result.theory_marks
+    attendence = result.attendence
+    term_test = result.term_test
+    total = result.total
+    print(total)
     form = UpdateForm(request.POST or None, instance = result)
     regi = result.student_id
-    context = {'form':form, 'regi': regi}
+
+    context = {'form':form, 
+               'regi': regi, 
+              'course_id': course_id, 
+    }
     
     if form.is_valid():
-        print("KKK")
+        tt = form.instance.term_test
+        aa = form.instance.attendence
+        theory= form.instance.theory_marks
+        form.instance.total = round(((theory)/100.0)*70.0+ (tt/30.0)*20.0+aa)
         form.save()
+        messages.success(request,"Marks Edited %s Student's %s Course"%(regi,course_id))
+        return redirect('home')
     
     return render (request, 'teacher_template/update_result.html',context)
 
@@ -897,12 +952,12 @@ def add_result(request, dept, course_id):
     context = {'data':register}
     if request.method == 'POST':
         regi = request.POST.get('registration_number')
-        print(regi)
+        
         obj = Result.objects.filter(student_id = regi ,course_code = course_id).first()
         if obj != None:
             id = obj.id
             messages.info(request, "Result Already Exist, You Can Update That Result Here")
-            return redirect(reverse('update_result', kwargs= {"result_id": id}))
+            return redirect(reverse('update_result', kwargs= {"result_id": id, "course_code": course_id}))
         else:
             return redirect(reverse('add_result2', kwargs= {"regi": regi, "cour_id": course_id}))
 
@@ -910,7 +965,7 @@ def add_result(request, dept, course_id):
     # context = {'form':form, 'regi': regi, 'course_id': course_id}
     # if form.is_valid():
     #     form.save()
-    return render(request, 'admin_template/add_result.html',context)
+    return render(request, 'teacher_template/add_result.html',context)
 
 
 @login_required(login_url = 'login')
@@ -1362,6 +1417,56 @@ def subject_ranksheet_teacher(request):
         } 
         return render(request, 'teacher_template/course_result2.html',context)
     return render(request, 'teacher_template/course_result.html',context)
+
+def delete_result(request):
+    t_id = str(request.user.teacher.teacher_id)
+    data = AssignedTeacher2.objects.filter(teacher_id = t_id)
+    
+    context = {'data':data}
+    if request.method == 'POST':
+        course_id = request.POST.get('course_code')
+        xx = course_id.split(",")
+        print(xx)
+        # res = Student.objects.filter(registration_number = regi).first()
+        # sub = Subject.objects.filter(course_code = course_id).first()
+        # if res == None:
+        #     messages.info(request, "The student is not registered..Register the student from here first")
+        #     return redirect(reverse('add_student'))
+        # if sub == None:
+        #     return HttpResponse("The Subject Is not Registered.. Register The Subject First")
+        return redirect(reverse('delete_result2', kwargs= {"dept": xx[1], "course_id": xx[0]}))
+
+    
+
+
+
+    return render(request,'teacher_template/delete_result.html',context)
+
+
+def delete_result2(request, dept, course_id):
+    data = Result.objects.filter(dept = dept, course_code = course_id)
+
+    if request.method == 'POST':
+        course_id = request.POST.get('course_code')
+        xx = course_id.split(",")
+
+        Result.objects.filter(course_code = xx[1], student_id = xx[0]).delete()
+
+        messages.success(request,"Successfully Deleted %s student's %s Course Result"%(xx[0],xx[1]))
+        return redirect('home')
+
+
+
+
+    context ={
+        'data':data
+
+
+    }
+    return render(request,'teacher_template/delete_result2.html',context)
+
+    
+
 
     
 
