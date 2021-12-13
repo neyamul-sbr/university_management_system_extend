@@ -34,6 +34,7 @@ from reportlab.lib.units import inch
 from reportlab.lib.pagesizes import letter
 from django.db import connections
 import os
+from django.db.models import Avg
  
 def cal_cg(marks):
     if marks>=80:
@@ -175,8 +176,58 @@ def logoutPage(request):
 @allowed_users_home(allowed_roles=['admin', 'teacher'])
 def home(request):
     name = str(request.user.adminuser.name)
+    stu_cnt = Student.objects.all().count()
+    teacher_cnt =Teacher.objects.all().count()
+    dept_cnt = Dept.objects.all().count()
+    admin_cnt = AdminUser.objects.all().count()
+    sub_cnt = Subject.objects.all().count()
+    overall_rate =Rating.objects.aggregate(Avg('rating'))
+    hi = Result.objects.raw ('''
+    SELECT 1 as id,dept, AVG(total) as avg from main_result group by dept ORDER BY avg DESC  LIMIT 1;
+    
+    ''')
+    low = Result.objects.raw ('''
+    SELECT 1 as id,dept, AVG(total) as avg from main_result group by dept ORDER BY avg LIMIT 1;
+    
+    ''')
+    hi_dept =""
+    low_dept =""
+    hi_mark =0
+    low_mark =0
+    for i in hi:
+        hi_dept = i.dept
+        hi_mark = round((i.avg)/10.0, 2)
+    for i in low:
+        low_dept = i.dept
+        low_mark = round((i.avg)/10.0, 2)
+
+    
+    
+    print(overall_rate)
 
     context = {'name':name,
+                'stu':stu_cnt,
+                'teacher':teacher_cnt,
+                'dept': dept_cnt,
+                'admin_cnt': admin_cnt,
+                'sub_cnt':sub_cnt,
+                'overall_rate': round(overall_rate['rating__avg'],2),
+                'hi_dept': hi_dept,
+                'hi_mark':hi_mark,
+                'low_dept': low_dept,
+                'low_mark':low_mark,                
+
+
+
+
+
+
+
+
+
+
+
+
     
     
     
@@ -519,19 +570,31 @@ def teacher_subject_list(request):
 
     t_id  = request.user.teacher.teacher_id
 
-    data = AssignedTeacher2.objects.filter(teacher_id = t_id)
+    data = AssignedTeacher2.objects.raw('''
+
+    SELECT 1 as id, subject_name as name, main_subject.course_code as cc, student_dept, subtype
+    FROM main_subject JOIN main_assignedteacher2 ON main_subject.course_code = main_assignedteacher2.course_code
+    where teacher_id = %s;
+    
+    
+    ''',[t_id])
 
     
 
     attr = []
-    
-    attr.append("course_code")
+    attr.append("name")
+    attr.append("cc")
     attr.append("student_dept")
+    attr.append("subtype")
     json_res =[]
     for i in data:
         obj = {}
-        obj[attr[0]] = i.course_code
-        obj[attr[1]] = i.student_dept
+        obj[attr[0]] = i.name
+        obj[attr[1]] = i.cc
+        obj[attr[2]] = i.student_dept
+        obj[attr[3]] = i.subtype
+        
+        
         json_res.append(obj) 
         
     return JsonResponse(json_res, safe = False) 
