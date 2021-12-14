@@ -757,7 +757,7 @@ def subject_ranksheet(request):
     if request.method == 'POST':
         course_id = request.POST.get('course_code')
         marksObj = Result.objects.raw('''
-        SELECT 1 as id,main_student.name, main_student.registration_number as regi, marks FROM
+        SELECT 1 as id,main_student.name, main_student.registration_number as regi, total as marks FROM
         public.main_student JOIN public.main_result ON
         main_student.registration_number = main_result.student_id
         JOIN public.main_subject ON main_result.course_code = main_subject.course_code
