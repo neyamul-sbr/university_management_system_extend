@@ -1,0 +1,18 @@
+[
+    {
+        "course_code": "SWE101",
+        "dept": "SWE",
+        "student_id": "2017551015",
+        "theory_marks": 40,
+        "term_test": 10,
+        "attendence": 5
+    },
+    {
+        "course_code": "CSE238",
+        "dept": "CSE",
+        "student_id": "2017331001",
+        "theory_marks": 90,
+        "term_test": 26,
+        "attendence": 9
+    }
+]

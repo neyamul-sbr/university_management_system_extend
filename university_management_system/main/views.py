@@ -131,6 +131,7 @@ def registerPageTeacher(request):
         else:
             messages.success(request, "Teacher Couldn't  Added")
             
+            
     return render(request, 'registration_template/add_teacher.html',context)
 
 @login_required(login_url = 'login')
@@ -329,7 +330,7 @@ def studentHome(request):
             upper =upper+ k.credit * cal_cg(k.total)
             lower =lower + k.credit
         
-        current_cgpa = upper/lower
+        current_cgpa = round(upper/lower,2)
         percent_passed_credit = ((credits_passed)*100)/160
 
 
@@ -693,23 +694,23 @@ def see_registration_status(request, *args, **kwargs):
     for i in register:
         c_id = i.subject_id
         subject_name = Subject.objects.get(course_code = c_id).subject_name  
-        assi_tea = AssignedTeacher2.objects.get(course_code = c_id, student_dept = dep).teacher_id
-        teacher_name = Teacher.objects.get(teacher_id = assi_tea).name
-        print(teacher_name)
-        i.sub = subject_name
-        i.teacher = teacher_name
+        #assi_tea = AssignedTeacher2.objects.get(course_code = c_id, student_dept = dep).teacher_id
+        #teacher_name = Teacher.objects.get(teacher_id = assi_tea).name
+        #print(teacher_name)
+        #i.sub = subject_name
+        #i.teacher = teacher_name
     attr=[]
     attr.append("course_code")
-    attr.append("subject_name")
+    #attr.append("subject_name")
     attr.append("status")
-    attr.append("teacher")
+    #attr.append("teacher")
     json_res =[]
     for i in register:
         obj = {}
         obj[attr[0]] = i.subject_id
-        obj[attr[1]] = i.sub
-        obj[attr[2]]= i.status
-        obj[attr[3]]= i.teacher
+        #obj[attr[1]] = i.sub
+        obj[attr[1]]= i.status
+        #obj[attr[3]]= i.teacher
         json_res.append(obj)
     return JsonResponse(json_res, safe= False)
     
@@ -810,7 +811,7 @@ class GeneratePdf(View):
             cgpa =0
             
         else:
-            cgpa = upper/lower
+            cgpa = round(upper/lower, 2)
         if lower<160:
             status = "Incomplete"
         else:
@@ -1068,8 +1069,7 @@ def add_subject(request):
                 messages.error(request, " %s Dept is not registered. Register The Department First From Here"%(dep_id))
                 return redirect('add_dept')
             messages.error(request, "Could'nt add subjects.. Subject is Alraeady registered")
-    else:
-        messages.error(request, "Could'nt add subjects..Probable reasons:<br> 1. Stubject Code and Type not properly entered ")
+  
     return render(request, 'admin_template/add_subject.html',context)
 
 
@@ -1518,6 +1518,18 @@ def delete_result2(request, dept, course_id):
         messages.success(request,"Successfully Deleted %s student's %s Course Result"%(xx[0],xx[1]))
         return redirect('home')
 
+def delete_student(request):
+    data = Student.objects.all()
+
+    if request.method == 'POST':
+        regi = request.POST.get('course_code')
+       
+        uid = Student.objects.get(registration_number = regi).user_id
+        Student.objects.filter(registration_number = regi).delete()
+        User.objects.filter(id = uid).delete()
+
+        messages.success(request,"Successfully Deleted %s student"%(regi))
+        return redirect('home')
 
 
 
@@ -1526,7 +1538,29 @@ def delete_result2(request, dept, course_id):
 
 
     }
-    return render(request,'teacher_template/delete_result2.html',context)
+    return render(request,'admin_template/remove_student.html',context)
+
+def remove_teacher(request):
+    data = Teacher.objects.all()
+
+    if request.method == 'POST':
+        regi = request.POST.get('course_code')
+       
+        uid = Teacher.objects.get(teacher_id = regi).user_id
+        Student.objects.filter(teacher_id = regi).delete()
+        User.objects.filter(id = uid).delete()
+
+        messages.success(request,"Successfully Deleted %s Teacher"%(regi))
+        return redirect('home')
+
+
+
+    context ={
+        'data':data
+
+
+    }
+    return render(request,'admin_template/remove_teacher.html',context)
 
     
 

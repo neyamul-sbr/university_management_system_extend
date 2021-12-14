@@ -51,7 +51,8 @@ urlpatterns = [
     path('delete_result/', views.delete_result,name ="delete_result"),
     path('delete_result2/<dept>/<course_id>', views.delete_result2,name ="delete_result2"),
     path('teacher_subject_list/', views.teacher_subject_list,name ="teacher_subject_list"),
-    
+    path('delete_student/', views.delete_student,name ="delete_student"),
+    path('remove_teacher/', views.remove_teacher,name ="remove_teacher"),
 
 
 

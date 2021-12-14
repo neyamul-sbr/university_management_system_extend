@@ -1,0 +1,18 @@
+[
+    {
+        "course_code": "CEP105",
+        "dept": "CEP",
+        "student_id": "2016441007",
+        "theory_marks": 65,
+        "term_test": 25,
+        "attendence": 10
+    },
+    {
+        "course_code": "CSE238",
+        "dept": "CSE",
+        "student_id": "2017331001",
+        "theory_marks": 90,
+        "term_test": 26,
+        "attendence": 9
+    }
+]

@@ -1,0 +1,54 @@
+[
+    {
+        "course_code": "CSE233",
+        "dept"       : "CSE",
+        "student_id": "2017331047",
+        "theory_marks": 90,
+        "term_test": 25,
+        "attendence": 8
+    },
+    {
+        "course_code": "CSE233",
+        "dept"       : "CSE",
+        "student_id": "2017331001",
+        "theory_marks": 80,
+        "term_test": 10,
+        "attendence": 9
+    }
+    ,
+    {
+        "course_code": "CSE233",
+        "dept"       : "CSE",
+        "student_id": "2017331061",
+        "theory_marks": 90,
+        "term_test": 10,
+        "attendence": 5
+    }
+    ,
+    {
+        "course_code": "CSE233",
+        "dept"       : "CSE",
+        "student_id": "2017331062",
+        "theory_marks": 6,
+        "term_test": 10,
+        "attendence": 2
+    }
+    ,
+    {
+        "course_code": "CSE233",
+        "dept"       : "CSE",
+        "student_id": "2017331063",
+        "theory_marks": 95,
+        "term_test": 29,
+        "attendence": 7
+    }
+    ,
+    {
+        "course_code": "CSE233",
+        "dept"       : "CSE",
+        "student_id": "2017331064",
+        "theory_marks": 86,
+        "term_test": 25,
+        "attendence": 8
+    }
+]

@@ -116,8 +116,24 @@
               <span class="menu-title">Assign Teacher</span>
             </a>
           </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'remove_teacher' %}">
+              <i class="ti-trash menu-icon"></i>
+              <span class="menu-title">Remove Teacher</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'delete_student' %}">
+              <i class="ti-face-sad menu-icon"></i>
+              <span class="menu-title">Remove Student</span>
+            </a>
+          </li>
+        
         </ul>
+
       </nav>
+
+  </nav>
       <div class="main-panel">
         {% include 'main/message.html' %}
         <div class="content-wrapperadmin">
