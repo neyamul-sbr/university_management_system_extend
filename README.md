@@ -35,6 +35,13 @@ So in a <b>nutshell</b> Admin's Functionality:<br><br>
 &nbsp;&nbsp;&nbsp;&nbsp;10. Observe overall quantitive factors of university<br>
 
 <br>
+<b>***Admin</b><br><br> <br>
+<img src="screenshot/01_a.png"/>
+<img src="screenshot/2a.png"/>
+<img src="screenshot/3a.png"/>
+<img src="screenshot/4a.png"/>
+
+<br>
 <br>
 
 
@@ -58,6 +65,19 @@ So in a <b>nutshell</b> Teacher's Functionality:<br><br>
 &nbsp;&nbsp;&nbsp;&nbsp;5. See Cousewise result conducted by teacher.<br>
 &nbsp;&nbsp;&nbsp;&nbsp;6. Download maksheet as PDF format
 
+<br><br><br>
+<b>***Teacher</b><br><br> <br>
+<img src="screenshot/01.png"/>
+<img src="screenshot/02.png"/>
+<img src="screenshot/03.png"/>
+<img src="screenshot/04.png"/>
+<img src="screenshot/tt.png"/>
+<img src="screenshot/05.png"/>
+<img src="screenshot/06.png"/>
+<img src="screenshot/07.png"/>
+<img src="screenshot/08.png"/>
+<br>
+
 <br><br><br><b>****Student Functionality:</b> The Student is the main user of the management system. University is managed based on students' needs. So In this web app, a student can see his performance and other things in a very informative way. 
 So a student, If he wants to take a course. First, he sends the request to his respective course teacher to register. If the teacher approves the request then only he can sit on the exam and get a result.
 Then he can see his result by Genre of that subject. Also, view the skillset him based on the genre.Also he can give ratings of teaching of the teacher on the scale 0 to 5.
@@ -71,6 +91,21 @@ So in a <b>nutshell</b> Student's Functionality:<br><br>
 &nbsp;&nbsp;&nbsp;&nbsp;4. Can see his curent markseet<br>
 &nbsp;&nbsp;&nbsp;&nbsp;5. Can download marksheet via PDF format.<br>
 &nbsp;&nbsp;&nbsp;&nbsp;6. Can see teacher approval table
+
+<b>***Studnet</b><br>
+<br>
+<br>
+<img src="screenshot/01_s.png"/>
+<img src="screenshot/02s.png"/>
+<img src="screenshot/3s.png"/>
+<img src="screenshot/5s.png"/>
+<img src="screenshot/6s.png"/>
+<img src="screenshot/7s.png"/>
+<img src="screenshot/8s.png"/>
+<img src="screenshot/9s.png"/>
+<img src="screenshot/10s.png"/>
+<img src="screenshot/11s.png"/>
+<br><br>
 <br>
 <br>
 <br>
@@ -88,38 +123,9 @@ So in a <b>nutshell</b> Student's Functionality:<br><br>
 <br>
 
 <b>Some Screenshots:</b>
-<b>***Studnet</b><br>
-<br>
-<br>
-<img src="screenshot/01_s.png"/>
-<img src="screenshot/02s.png"/>
-<img src="screenshot/3s.png"/>
-<img src="screenshot/5s.png"/>
-<img src="screenshot/6s.png"/>
-<img src="screenshot/7s.png"/>
-<img src="screenshot/8s.png"/>
-<img src="screenshot/9s.png"/>
-<img src="screenshot/10s.png"/>
-<img src="screenshot/11s.png"/>
-<br><br>
-<br>
-<b>***Admin</b><br><br> <br>
-<img src="screenshot/01_a.png"/>
-<img src="screenshot/2a.png"/>
-<img src="screenshot/3a.png"/>
-<img src="screenshot/4a.png"/>
-<br><br><br>
-<b>***Teacher</b><br><br> <br>
-<img src="screenshot/01.png"/>
-<img src="screenshot/02.png"/>
-<img src="screenshot/03.png"/>
-<img src="screenshot/04.png"/>
-<img src="screenshot/tt.png"/>
-<img src="screenshot/05.png"/>
-<img src="screenshot/06.png"/>
-<img src="screenshot/07.png"/>
-<img src="screenshot/08.png"/>
-<br>
+
+
+
 
 The demo of this project is here: https://youtu.be/2Pi0Oehs6l0
 
