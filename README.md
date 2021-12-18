@@ -122,7 +122,7 @@ So in a <b>nutshell</b> Student's Functionality:<br><br>
 
 <br>
 
-<b>Some Screenshots:</b>
+
 
 
 
