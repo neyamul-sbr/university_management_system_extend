@@ -126,8 +126,10 @@ So in a <b>nutshell</b> Student's Functionality:<br><br>
 
 
 
-[![University Management System Demo Video]          // Title
+<!-- [![University Management System Demo Video]          // Title
 (https://i.ytimg.com/vi/2Pi0Oehs6l0/maxresdefault.jpg)] // Thumbnail
-(https://youtu.be/2Pi0Oehs6l0 "University Management System Demo Video")    // Video Link
+(https://youtu.be/2Pi0Oehs6l0 "University Management System Demo Video")    // Video Link -->
+
+[<img src="https://i.ytimg.com/vi/2Pi0Oehs6l0/maxresdefault.jpg" width="50%">](https://youtu.be/2Pi0Oehs6l0 "University Management System Demo Video")
 The demo of this project is here: https://youtu.be/2Pi0Oehs6l0
 
