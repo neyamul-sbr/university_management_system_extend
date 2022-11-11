@@ -1,8 +1,7 @@
 # university_management_system_extend
 
 This project is the direct extention from the project I did for DBMS Lab..The git link of my dbms project from which I extended it is given Below:
-https://github.com/mdneyamul/university_management_system.git (in case , You want to see the commit history)
-
+https://github.com/mdneyamul/university_management_system.git 
 1. I did this project named "University Management System" because I wanted to Implement DBMS and Software Engineering Pattern that I learned from the theory class properly. 
    Because Something Like University Management Has all the basic CRUD (CREATE, READ, UPDATE, DELETE) Operations, That is essential on learning Database Management System. 
    Also Because of The Supervisor's Advice, I also did many representations with chart.js and other work on the front end which was not the initial plan for this project, 
